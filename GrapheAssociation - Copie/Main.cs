@@ -91,6 +91,12 @@ namespace GrapheAssociation
             }
             rep += AfficherChemins(listeLien);
             rep += "Temps de trajet : " + graphe.CalculerTempsTrajetMetro(listeLien) + " min\n\n";
+            
+            return rep;
+        }
+
+        public void AfficherCarte()
+        {
             string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
             string filePathLignes = Path.Combine(chemin, @"metro_paris_temps.csv");
             string filePathGares = Path.Combine(chemin, @"metro_paris_gares2.csv");
@@ -98,7 +104,6 @@ namespace GrapheAssociation
             graphe.DessinerGraphe(filePathLignes, listeGares);
             FileStream file = File.Open(filePathLignes, FileMode.Open, FileAccess.Write, FileShare.None);
             Process.Start(new ProcessStartInfo(filePathLignes) { UseShellExecute = true });
-            return rep;
         }
 
 

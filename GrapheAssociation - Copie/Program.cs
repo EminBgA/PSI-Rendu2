@@ -90,7 +90,8 @@ namespace GrapheAssociation
             
             Main refMain = new Main();
 
-            Console.WriteLine(refMain.TrouverCheminLePlusCourt(48.256613, 2.25222, 48.84366, 2.61563));
+            Console.WriteLine(refMain.TrouverCheminLePlusCourt(48.756613, 2.55222, 48.44366, 2.61563));
+            refMain.AfficherCarte();
             
         }
 
