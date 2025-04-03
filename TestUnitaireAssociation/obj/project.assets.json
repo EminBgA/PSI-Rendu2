@@ -2622,7 +2622,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj",
+      "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj",
       "MSTest >= 3.6.1",
       "Microsoft.NET.Test.Sdk >= 17.11.1",
       "Microsoft.Testing.Extensions.CodeCoverage >= 17.12.6",
@@ -2630,23 +2630,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\eminb\\.nuget\\packages\\": {},
+    "C:\\Users\\cyril\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\TestUnitaireAssociation\\TestUnitaireAssociation.csproj",
+      "projectUniqueName": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\TestUnitaireAssociation\\TestUnitaireAssociation.csproj",
       "projectName": "TestUnitaireAssociation",
-      "projectPath": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\TestUnitaireAssociation\\TestUnitaireAssociation.csproj",
-      "packagesPath": "C:\\Users\\eminb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\TestUnitaireAssociation\\obj\\",
+      "projectPath": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\TestUnitaireAssociation\\TestUnitaireAssociation.csproj",
+      "packagesPath": "C:\\Users\\cyril\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\TestUnitaireAssociation\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\eminb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\cyril\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2661,8 +2661,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj": {
-              "projectPath": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj"
+            "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj": {
+              "projectPath": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj"
             }
           }
         }
@@ -2676,8 +2676,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.100"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -2716,7 +2715,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -2724,8 +2723,8 @@
     {
       "code": "NU1104",
       "level": "Error",
-      "message": "Projet 'C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj' introuvable. Vérifiez que la référence de projet est valide et que le fichier projet existe.",
-      "libraryId": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj",
+      "message": "Projet 'C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj' introuvable. Vérifiez que la référence de projet est valide et que le fichier projet existe.",
+      "libraryId": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation\\GrapheAssociation.csproj",
       "targetGraphs": [
         "net8.0"
       ]

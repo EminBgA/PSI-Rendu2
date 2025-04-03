@@ -1,26 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\",
+  "WorkspaceRootPath": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\eminb\\onedrive\\documents\\github\\psi-rendu2\\grapheassociation - copie\\graphe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:graphe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\eminb\\onedrive\\documents\\github\\psi-rendu2\\grapheassociation - copie\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\cyril\\onedrive\\bureau\\projet psi\\psi-rendu2\\grapheassociation - copie\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\eminb\\onedrive\\documents\\github\\psi-rendu2\\grapheassociation - copie\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\cyril\\onedrive\\bureau\\projet psi\\psi-rendu2\\grapheassociation - copie\\graphe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:graphe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\eminb\\onedrive\\documents\\github\\psi-rendu2\\grapheassociation - copie\\lien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\cyril\\onedrive\\bureau\\projet psi\\psi-rendu2\\grapheassociation - copie\\noeud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:noeud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\cyril\\onedrive\\bureau\\projet psi\\psi-rendu2\\grapheassociation - copie\\lien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:lien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\eminb\\onedrive\\documents\\github\\psi-rendu2\\grapheassociation - copie\\noeud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:noeud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|c:\\users\\cyril\\onedrive\\bureau\\projet psi\\psi-rendu2\\grapheassociation - copie\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{661D1F1D-A358-448E-A31C-E706173885F3}|GrapheAssociation.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,11 +30,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             },
             {
               "$type": "Bookmark",
@@ -42,66 +42,74 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Program.cs",
+              "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Program.cs",
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAABgAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-25T21:41:47.646Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-25T21:41:47.646Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Main.cs",
-              "DocumentMoniker": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Main.cs",
+              "DocumentMoniker": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Main.cs",
               "RelativeDocumentMoniker": "Main.cs",
-              "ToolTip": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Main.cs",
+              "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Main.cs",
               "RelativeToolTip": "Main.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAQwBkAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAqwBkAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-03T13:34:20.027Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Graphe.cs",
-              "DocumentMoniker": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Graphe.cs",
+              "DocumentMoniker": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Graphe.cs",
               "RelativeDocumentMoniker": "Graphe.cs",
-              "ToolTip": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Graphe.cs",
+              "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Graphe.cs",
               "RelativeToolTip": "Graphe.cs",
-              "ViewState": "AgIAAMsBAAAAAAAAAAAuwNwBAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAEABAAAAAAAAAAApwL4CAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-01T16:49:53.21Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-01T16:49:53.21Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Lien.cs",
-              "DocumentMoniker": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Lien.cs",
+              "DocumentMoniker": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Lien.cs",
               "RelativeDocumentMoniker": "Lien.cs",
-              "ToolTip": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Lien.cs",
+              "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Lien.cs",
               "RelativeToolTip": "Lien.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAQwA0AAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAYwA0AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-25T21:41:36.135Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Noeud.cs",
-              "DocumentMoniker": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Noeud.cs",
+              "DocumentMoniker": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Noeud.cs",
               "RelativeDocumentMoniker": "Noeud.cs",
-              "ToolTip": "C:\\Users\\eminb\\OneDrive\\Documents\\GitHub\\PSI-Rendu2\\GrapheAssociation - Copie\\Noeud.cs",
+              "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\GrapheAssociation - Copie\\Noeud.cs",
               "RelativeToolTip": "Noeud.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAYwAsAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-25T21:41:35.349Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 8,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
