@@ -18,76 +18,7 @@ namespace GrapheAssociation
 
         static void Main(string[] args)
         {
-            /*Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-            // Début : Setup graphe et toutes les classes
-            string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            string filePathLignes = Path.Combine(chemin, @"metro_paris_temps.csv");
-            string filePathGares = Path.Combine(chemin, @"metro_paris_gares2.csv");
-
-            List<Dictionary<string, object>> listeLignes = new List<Dictionary<string, object>>();
-            Dictionary<string, Dictionary<string, object>> listeGares = new Dictionary<string, Dictionary<string, object>>();
-
-            listeLignes = LireFichierCSVLignes(filePathLignes);
-            List<int> listeSommets = GetSommets(listeLignes);
-            List<string> listeNomSommets = GetNoms(listeLignes);
-            int numSommets = listeSommets.Count;
-
-            listeGares = LireFichierCSVGares(filePathGares);
-
-            Graphe graphe = new Graphe(listeSommets.Max() + 1);
-
-            
-
-
-            for (int i = 0; i < listeSommets.Count; i++)
-            {
-                graphe.AjouterNoeud(listeSommets[i],listeNomSommets[i]);
-            }
-
-            for (int i = 0; i < listeLignes.Count; i++)
-            {
-                if ((int)listeLignes[i]["idP"] != 0)
-                {
-                    graphe.AjouterLien((int)listeLignes[i]["idP"], (int)listeLignes[i]["id"], (int)listeLignes[i]["tempsStations"], (int)listeLignes[i]["tempsCorrespondance"], (string)listeLignes[i]["nomMetro"], (int)listeLignes[i]["numMetro"]);//(int)listeStations[i]["tempsStation"]);
-                }
-            }
-            // Fin
-
-            // Début : Setup toutes les variables nécessaires pour trouver le chemin le plur rapide
-            double longitudeDepart = 1.27222;
-            double latitudeDepart = 47.156613;
-            double longitudeArrivee = 3.21563;
-            double latitudeArrivee = 48.74366;
-            int gareDepart = 75; //TrouverGarePlusProche(longitudeDepart, latitudeDepart, listeNomSommets, listeGares, listeLignes);
-            int gareArrivee = 185;// TrouverGarePlusProche(longitudeArrivee, latitudeArrivee, listeNomSommets, listeGares, listeLignes);
-
-
-
-            Console.WriteLine("Départ : " + graphe.NomSommet(gareDepart));
-            Console.WriteLine("Arrivée : " + graphe.NomSommet(gareArrivee) + "\n\n");
-
-            Lien[] listeLien = graphe.Dijkstra(gareDepart, gareArrivee);
-            AfficherGares(listeLien);
-            Console.WriteLine("\n");
-            Console.WriteLine("Temps de trajet : " + graphe.CalculerTempsTrajetMetro(listeLien) + " min\n\n");
-            listeLien = graphe.BellmanFord(gareDepart, gareArrivee);
-            AfficherGares(listeLien);
-            Console.WriteLine("\n");
-            Console.WriteLine("Temps de trajet : " + graphe.CalculerTempsTrajetMetro(listeLien) + " min\n\n");
-            listeLien = graphe.FloydWarshall2(gareDepart, gareArrivee);
-            AfficherGares(listeLien);
-            Console.WriteLine("\n");
-            Console.WriteLine("Temps de trajet : " + graphe.CalculerTempsTrajetMetro(listeLien) + " min\n\n");
-
-
-            filePathLignes = Path.Combine(chemin, @"graphe.png");
-            graphe.DessinerGraphe(filePathLignes, listeGares);
-            FileStream file = File.Open(filePathLignes, FileMode.Open, FileAccess.Write, FileShare.None);
-            Process.Start(new ProcessStartInfo(filePathLignes) { UseShellExecute = true });
-
-            */
-            
+           
             Main refMain = new Main();
 
             Console.WriteLine(refMain.TrouverCheminLePlusCourt(48.756613, 2.55222, 48.44366, 2.61563));
