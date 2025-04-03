@@ -1886,7 +1886,9 @@ namespace GrapheAssociation
             List<Client> ListeClient = new List<Client>();
             // Cette méthode(fonction) va se charger de parser le fichier csv et
             //récupérer chaque ligne du fichier csv dans un objet client
-            using (TextFieldParser parser = new TextFieldParser(@"C:\Users\cyril\OneDrive\Bureau\projet PSI\PSI-Rendu1\Clients.csv"))
+            string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string filePathLignes = Path.Combine(chemin, @"Clients.csv");
+            using (TextFieldParser parser = new TextFieldParser(filePathLignes)) 
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
@@ -1933,7 +1935,9 @@ namespace GrapheAssociation
             List<Cuisinier> ListeCuisinier = new List<Cuisinier>();
             // Cette méthode(fonction) va se charger de parser le fichier csv et
             //récupérer chaque ligne du fichier csv dans un objet client
-            using (TextFieldParser parser = new TextFieldParser(@"C:\Users\cyril\OneDrive\Bureau\projet PSI\PSI-Rendu1\Cuisiniers.csv"))
+            string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string filePathLignes = Path.Combine(chemin, @"Cuisiniers.csv");
+            using (TextFieldParser parser = new TextFieldParser(filePathLignes))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
@@ -1977,7 +1981,9 @@ namespace GrapheAssociation
             List<Utilisateur> ListeUtilisateur = new List<Utilisateur>();
             // Cette méthode(fonction) va se charger de parser le fichier csv et
             // récupérer chaque ligne du fichier csv dans un objet utilisateur
-            using (TextFieldParser parser = new TextFieldParser(@"C:\Users\cyril\OneDrive\Bureau\projet PSI\PSI-Rendu1\Utilisateurs.csv"))
+            string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string filePathLignes = Path.Combine(chemin, @"Utilisateurs.csv");
+            using (TextFieldParser parser = new TextFieldParser(filePathLignes))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
