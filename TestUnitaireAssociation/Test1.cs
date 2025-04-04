@@ -12,13 +12,13 @@ namespace GrapheAssociation
         [TestMethod]
         public void TestMethod1()
         {
-            Noeud refNoeud1 = new Noeud(1);
-            Noeud refNoeud2 = new Noeud(2);
-            Lien refLien = new Lien(refNoeud1, refNoeud2);
+            Noeud refNoeud1 = new Noeud(1, "noeud1");
+            Noeud refNoeud2 = new Noeud(2, "noeud2");
+            Lien refLien = new Lien(refNoeud1, refNoeud2, 2, 2, "1", 1);
             Graphe refGraphe = new Graphe(3);
-            refGraphe.AjouterNoeud(1);
-            refGraphe.AjouterNoeud(2);
-            refGraphe.AjouterLien(1, 2);
+            refGraphe.AjouterNoeud(1, "noeud1");
+            refGraphe.AjouterNoeud(2, "noeud2");
+            refGraphe.AjouterLien(1, 2, 2, 2, "1", 1);
 
 
             int idNoeud = refNoeud1.GetID();

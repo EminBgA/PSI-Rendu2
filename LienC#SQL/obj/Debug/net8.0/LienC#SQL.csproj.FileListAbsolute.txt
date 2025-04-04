@@ -85,3 +85,44 @@ C:\Users\cyril\OneDrive\Bureau\projet PSI\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\
 C:\Users\cyril\OneDrive\Bureau\projet PSI\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.pdb
 C:\Users\cyril\OneDrive\Bureau\projet PSI\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.genruntimeconfig.cache
 C:\Users\cyril\OneDrive\Bureau\projet PSI\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\ref\LienC#Sql.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\LienC#Sql.exe
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\LienC#Sql.deps.json
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\LienC#Sql.runtimeconfig.json
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\LienC#Sql.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\LienC#Sql.pdb
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\Google.Protobuf.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\K4os.Compression.LZ4.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\K4os.Compression.LZ4.Streams.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\K4os.Hash.xxHash.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\MySql.Data.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.IO.Pipelines.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.Security.Permissions.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.Text.Encodings.Web.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win-x64\native\comerr64.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win-x64\native\gssapi64.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win-x64\native\k5sprt64.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win-x64\native\krb5_64.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win-x64\native\krbcc64.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.Messages.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.csproj.AssemblyReference.cache
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.AssemblyInfoInputs.cache
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.AssemblyInfo.cs
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.csproj.CoreCompileInputs.cache
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.sourcelink.json
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.csproj.Up2Date
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\refint\LienC#Sql.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.pdb
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\LienC#Sql.genruntimeconfig.cache
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\LienC#SQL\obj\Debug\net8.0\ref\LienC#Sql.dll
