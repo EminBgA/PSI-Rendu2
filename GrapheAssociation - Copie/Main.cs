@@ -16,10 +16,6 @@ namespace GrapheAssociation
         private List<int> listeSommets;
         private List<string> listeNomSommets;
         private int numSommets;
-        private double longitudeDepart;
-        private double latitudeDepart;
-        private double longitudeArrivee;
-        private double latitudeArrivee;
         private int gareDepart;
         private int gareArrivee;
         Lien[] listeLien;
@@ -59,12 +55,24 @@ namespace GrapheAssociation
         }
 
 
-
-        public string TrouverCheminLePlusCourt(double latDepart, double lonDepart, double latArrivee, double lonArrivee)
+        /// <summary>
+        /// Cette fonction trouve le chemin le plus court à partir de coord de départ et d'arrivéé
+        /// </summary>
+        /// <param name="latDepart"></param>
+        /// <param name="lonDepart"></param>
+        /// <param name="latArrivee"></param>
+        /// <param name="lonArrivee"></param>
+        /// <returns></returns>
+        public string TrouverCheminLePlusCourt(double latDepart, double lonDepart, double latArrivee, double lonArrivee, int gareD, int gareA)
         {
-            int gareDepart = TrouverGarePlusProche(lonDepart, latDepart, listeNomSommets, listeGares, listeLignes);
-            int gareArrivee = TrouverGarePlusProche(lonArrivee, latArrivee, listeNomSommets, listeGares, listeLignes);
-
+            int gareDepart = gareD;
+            int gareArrivee = gareA;
+            
+            if (gareD < 1 && gareA < 1)
+            {
+                gareDepart = TrouverGarePlusProche(lonDepart, latDepart, listeNomSommets, listeGares, listeLignes);
+                gareArrivee = TrouverGarePlusProche(lonArrivee, latArrivee, listeNomSommets, listeGares, listeLignes);
+            }
             string rep = "Départ : " + graphe.NomSommet(gareDepart) + "\nArrivée : " + graphe.NomSommet(gareArrivee) + "\n\n";
 
             Lien[] listeLiensDijkstra = graphe.Dijkstra(gareDepart, gareArrivee);
@@ -95,6 +103,9 @@ namespace GrapheAssociation
             return rep;
         }
 
+        /// <summary>
+        /// Cette fonction affiche la carte des métros de Paris
+        /// </summary>
         public void AfficherCarte()
         {
             string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
@@ -107,44 +118,11 @@ namespace GrapheAssociation
         }
 
 
-
-        public void AfficherGares(Lien[] listeLien)
-        {
-            int numMetro = 0;
-            string nomMetro = "";
-            int gareDepart = 0;
-            string nomDepart = "";
-            int gareArrivee = 0;
-            string nomArrivee = "";
-            foreach (Lien lien in listeLien)
-            {
-                if (numMetro == 0)
-                {
-                    numMetro = lien.GetNumMetro();
-                    nomMetro = lien.GetNomMetro();
-                    gareDepart = lien.GetNoeud(1).GetID();
-                    nomDepart = lien.GetNoeud(1).GetNom();
-                    Console.Write(nomMetro + " : " + nomDepart);
-                }
-                if (lien.GetNumMetro() != numMetro)
-                {
-                    Console.WriteLine();
-                    numMetro = lien.GetNumMetro();
-                    nomMetro = lien.GetNomMetro();
-                    gareDepart = lien.GetNoeud(1).GetID();
-                    nomDepart = lien.GetNoeud(1).GetNom();
-                    Console.Write(nomMetro + " : " + nomDepart);
-                    Console.Write(" -> " + lien.GetNoeud(2).GetNom());
-                }
-                else
-                {
-                    Console.Write(" -> " + lien.GetNoeud(2).GetNom());
-                }
-                gareArrivee = lien.GetNoeud(2).GetID();
-                nomArrivee = lien.GetNoeud(2).GetNom();
-            }
-        }
-
+        /// <summary>
+        /// Cette fonction renvoie le chemin à suivre pour aller d'un sommet 1 à un sommet 2.
+        /// </summary>
+        /// <param name="listeLien"></param>
+        /// <returns></returns>
         public string AfficherChemins(Lien[] listeLien)
         {
             int numMetro = 0;
@@ -179,6 +157,11 @@ namespace GrapheAssociation
             return rep;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie tous les liens du fichier Excel
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> LireFichierCSVLignes(string filePath)
         {
             List<Dictionary<string, object>> listeStations = new List<Dictionary<string, object>>();
@@ -251,6 +234,12 @@ namespace GrapheAssociation
             return listeStations;
         }
 
+
+        /// <summary>
+        /// Cette fonction renvoie toutes les sommets du fichier Excel
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public Dictionary<string, Dictionary<string, object>> LireFichierCSVGares(string filePath)
         {
             Dictionary<string, Dictionary<string, object>> listeStations = new Dictionary<string, Dictionary<string, object>>();
@@ -277,6 +266,11 @@ namespace GrapheAssociation
             return listeStations;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie les ID de tous les sommets
+        /// </summary>
+        /// <param name="listeStations"></param>
+        /// <returns></returns>
         public List<int> GetSommets(List<Dictionary<string, object>> listeStations)
         {
             List<int> allStationID = new List<int>();
@@ -290,6 +284,11 @@ namespace GrapheAssociation
             return allStationID;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie les noms de tous les sommets
+        /// </summary>
+        /// <param name="listeStations"></param>
+        /// <returns></returns>
         public List<string> GetNoms(List<Dictionary<string, object>> listeStations)
         {
             List<string> allStationID = new List<string>();
@@ -303,6 +302,15 @@ namespace GrapheAssociation
             return allStationID;
         }
 
+        /// <summary>
+        /// Cette fonction trouve la gare la plus proche avec les coordonnes de l'adresse
+        /// </summary>
+        /// <param name="longitude"></param>
+        /// <param name="latitude"></param>
+        /// <param name="listeNomGares"></param>
+        /// <param name="listeGares"></param>
+        /// <param name="listeLignes"></param>
+        /// <returns></returns>
         public int TrouverGarePlusProche(double longitude, double latitude, List<string> listeNomGares, Dictionary<string, Dictionary<string, object>> listeGares, List<Dictionary<string, object>> listeLignes)
         {
             string nomGarePlusProche = "";

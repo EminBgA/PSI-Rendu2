@@ -402,15 +402,24 @@ namespace GrapheAssociation
             }
 
             // Début : On retrace le chemin parcouru pour renvoyer tous les liens empruntés dans le bon ordre.
+            List<Lien> liensVisites = new List<Lien>();
             var chemin = new List<Lien>();
             int sommet = sommetArrive;
             while (sommet != sommetDepart)
             {
                 Lien lien = lienPred[pred[sommetDepart, sommet], sommet];
                 if (lien == null) return new Lien[0];
-
-                chemin.Add(lien);
-                sommet = pred[sommetDepart, sommet];
+                if (!liensVisites.Contains(lien))
+                {
+                    liensVisites.Add(lien);
+                    chemin.Add(lien);
+                    sommet = pred[sommetDepart, sommet];
+                }
+                else
+                {
+                    return new Lien[0];
+                }
+                
             }
 
             chemin.Reverse();
