@@ -326,12 +326,13 @@ namespace GrapheAssociation
         /// <returns></returns>
         public Lien[] FloydWarshall(int sommetDepart, int sommetArrive)
         {
-            int maxInt = 1000;
-            int[,] distances = new int[numSommets, numSommets];
-            int[,] pred = new int[numSommets, numSommets];
-            Lien[,] lienPred = new Lien[numSommets, numSommets]; // Stocke les liens empruntés
-            Lien[,] dernierLienUtilise = new Lien[numSommets, numSommets];
+            int maxInt = 1000; // On ne peut pas utiliser int.MaxValue car on va additionner ces variables entre elles plus tard dans le programme donc on assigne une valeur suffisemment élevée.
+            int[,] distances = new int[numSommets, numSommets]; // Distance minimale entre deux sommets du graphe/
+            int[,] pred = new int[numSommets, numSommets]; // Associe chaque sommet à son sommet prédécesseur.
+            Lien[,] lienPred = new Lien[numSommets, numSommets]; // Associe chaque sommet à son lien prédécesseur.
+            Lien[,] dernierLienUtilise = new Lien[numSommets, numSommets]; // Associe chaque lien à son lien précédent pour le temps d'attente.
 
+            // Début : On initialise les variables
             for (int i = 0; i < numSommets; i++)
             {
                 for (int j = 0; j < numSommets; j++)
@@ -349,7 +350,7 @@ namespace GrapheAssociation
                     }
                 }
             }
-
+            
             foreach (Lien lien in listeLiens)
             {
                 int id1 = lien.GetNoeud(1).GetID();
@@ -359,24 +360,30 @@ namespace GrapheAssociation
                 lienPred[id1, id2] = lien;
                 dernierLienUtilise[id1, id2] = lien;
             }
+            // Fin
 
-            for (int k = 0; k < numSommets; k++)
+
+            for (int k = 0; k < numSommets; k++) // Sommet intermédiaire
             {
-                for (int i = 0; i < numSommets; i++)
+                for (int i = 0; i < numSommets; i++) // Sommet de départ
                 {
-                    for (int j = 0; j < numSommets; j++)
+                    for (int j = 0; j < numSommets; j++) // Sommet d'arrivee
                     {
+                        // Si les distances ne sont pas encore définis, alors on saute ces sommets.
                         if (distances[i, k] == maxInt || distances[k, j] == maxInt)
                         {
                             continue;
                         }
-
+                        
+                        // Début : Ajout du temps d'attente
                         int tempsAttente = 0;
                         if (dernierLienUtilise[i, k] != null && dernierLienUtilise[k, j] != null && dernierLienUtilise[i, k].GetNumMetro() != dernierLienUtilise[k, j].GetNumMetro())
                         {
                             tempsAttente += dernierLienUtilise[k, j].GetTempsChangement();
                         }
+                        // Fin
 
+                        // Si le nouveau temps / nouvelle distance est plus faible que celle actuellement utilié, on remplace les liens utilisés.
                         if (distances[i, k] + distances[k, j] + tempsAttente < distances[i, j])
                         {
                             distances[i, j] = distances[i, k] + distances[k, j] + tempsAttente;
@@ -394,6 +401,7 @@ namespace GrapheAssociation
                 return new Lien[0];
             }
 
+            // Début : On retrace le chemin parcouru pour renvoyer tous les liens empruntés dans le bon ordre.
             var chemin = new List<Lien>();
             int sommet = sommetArrive;
             while (sommet != sommetDepart)
@@ -407,6 +415,7 @@ namespace GrapheAssociation
 
             chemin.Reverse();
             return chemin.ToArray();
+            // Fin
         }
 
 
@@ -419,11 +428,12 @@ namespace GrapheAssociation
         /// <returns></returns>
         public Lien[] BellmanFord(int sommetDepart, int sommetArrive)
         {
-            var distances = new Dictionary<int, int>();
-            var pred = new Dictionary<int, int>();
-            var lienPred = new Dictionary<int, Lien>(); 
-            var dernierLienUtilise = new Dictionary<int, Lien>();
+            var distances = new Dictionary<int, int>(); // Les distances minimales entre deux sommets du graphe.
+            var pred = new Dictionary<int, int>(); // Associe chaque sommet à son sommet précédent.
+            var lienPred = new Dictionary<int, Lien>(); // Associe chaque lien à son sommet précédent.
+            var dernierLienUtilise = new Dictionary<int, Lien>(); // Associe chaque lien à son lien précédent pour le temps d'attente.
 
+            // Début : initialisation des variables
             foreach (Noeud sommet in listeSommets)
             {
                 if (sommet != null)
@@ -435,7 +445,9 @@ namespace GrapheAssociation
                 }
             }
             distances[sommetDepart] = 0;
+            // Fin
 
+            // Début : Calcul du chemin le plus court en parcourant chaque lien numSommets fois.
             for (int i = 1; i < numSommets; i++)
             {
                 foreach (Lien lien in listeLiens)
@@ -443,12 +455,15 @@ namespace GrapheAssociation
                     int id1 = lien.GetNoeud(1).GetID();
                     int id2 = lien.GetNoeud(2).GetID();
 
+                    // Début : Ajout du temps d'attente.
                     int tempsAttente = 0;
                     if (dernierLienUtilise[id1] != null && dernierLienUtilise[id1].GetNumMetro() != lien.GetNumMetro())
                     {
                         tempsAttente += lien.GetTempsChangement();
                     }
+                    // Fin
 
+                    // Si le nouveau temps / nouvelle distance est plus faible que celle actuellement utilié, on remplace les liens utilisés.
                     if (distances[id1] != int.MaxValue && distances[id1] + lien.Distance() + tempsAttente < distances[id2])
                     { 
                         distances[id2] = distances[id1] + lien.Distance();
@@ -465,6 +480,7 @@ namespace GrapheAssociation
                 return new Lien[0]; // Pas de chemin trouvé
             }
 
+            // Début : On retrace le chemin parcouru pour renvoyer tous les liens empruntés dans le bon ordre.
             var chemin = new List<Lien>();
             int nsommet = sommetArrive;
             while (pred[nsommet] != 0)
@@ -475,6 +491,7 @@ namespace GrapheAssociation
 
             chemin.Reverse();
             return chemin.ToArray();
+            // Fin
         }
 
         /// <summary>
@@ -485,26 +502,28 @@ namespace GrapheAssociation
         /// <returns></returns>
         public Lien[] Dijkstra(int sommetDepart, int sommetArrive)
         {
-            var distances = new Dictionary<int, int>();
-            var pred = new Dictionary<int, int>();
+            var distances = new Dictionary<int, int>();  // Les distances minimiales entre chaque sommet
+            var pred = new Dictionary<int, int>();  // Associe chaque sommet à son sommet prédécesseur
             var lienPred = new Dictionary<int, Lien>(); // Associe chaque sommet à son lien prédécesseur
             var dernierLienUtilise = new Dictionary<int, Lien>(); // Pour déterminer si il y a des changements de métro.
-            var nonVisites = new List<int>();
+            var nonVisites = new List<int>();  // Liste des sommets pas encore visité.
 
+            // Début : Initialisation des variables
             foreach (Noeud sommet in listeSommets)
             {
                 if (sommet != null)
                 {
-                    distances[sommet.GetID()] = int.MaxValue;
-                    pred[sommet.GetID()] = 0;
+                    distances[sommet.GetID()] = int.MaxValue; 
+                    pred[sommet.GetID()] = 0;   // Le sommet d'ID 0 n'existe pas donc cela permet d'initialliser le sommet.
                     lienPred[sommet.GetID()] = null;
                     dernierLienUtilise[sommet.GetID()] = null;
                     nonVisites.Add(sommet.GetID());
                 }
             }
             distances[sommetDepart] = 0;
+            // Fin
 
-            while (nonVisites.Count > 0)
+            while (nonVisites.Count > 0) // Tant qu'on a pas visité tous les sommets du graphe.
             {
                 int sommetDepartActuel = -1;
                 int minDistance = int.MaxValue;
@@ -524,10 +543,10 @@ namespace GrapheAssociation
 
                 nonVisites.Remove(sommetDepartActuel);
 
-                if (sommetDepartActuel == sommetArrive)
+                if (sommetDepartActuel == sommetArrive)  
                     break;
 
-                // Trouver le sommet actuel
+                // On cherche une reference au sommet à partir de son ID.
                 Noeud sommetActuel = null;
                 foreach (var sommet in listeSommets)
                 {
@@ -542,10 +561,10 @@ namespace GrapheAssociation
                 // Explorer les voisins
                 foreach (Noeud voisin in sommetActuel.GetVoisins())
                 {
-                    int sommetID = voisin.GetID();
+                    int sommetID = voisin.GetID(); // ID du sommet voisin.
                     Lien lien = null;
 
-                    // Trouver le lien correspondant
+                    // On chercher une reference au lien reliant les deux sommets à partir de l'ID du sommet de départ et son voisin
                     foreach (var l in listeLiens)
                     {
                         if (l.GetNoeud(1).GetID() == sommetDepartActuel && l.GetNoeud(2).GetID() == sommetID)
@@ -558,11 +577,16 @@ namespace GrapheAssociation
 
                     int tempsAttente = 0;
                     
+
+                    // On vérifie si le dernier lien utilisé avait une ligne de métro différente. Si c'est la cas, on rajoute au temps d'attente le temps de changement de ligne
                     if (dernierLienUtilise[sommetActuel.GetID()] != null && dernierLienUtilise[sommetActuel.GetID()].GetNumMetro() != lien.GetNumMetro())
                     {
                         tempsAttente += lien.GetTempsChangement();
                     }
+
                     int nouvelleDistance = distances[sommetDepartActuel] + lien.Distance() + tempsAttente;
+
+                    // Si le nouveau temps / nouvelle distance est plus faible que celle actuellement utilié, on remplace les liens utilisés.
                     if (nouvelleDistance < distances[sommetID])
                     {
                         distances[sommetID] = nouvelleDistance;
@@ -573,6 +597,7 @@ namespace GrapheAssociation
                 }
             }
 
+            // Début : On retrace le chemin parcouru pour renvoyer tous les liens empruntés dans le bon ordre.
             if (lienPred[sommetArrive] == null)
                 return new Lien[0]; // Pas de chemin trouvé
 
@@ -585,6 +610,7 @@ namespace GrapheAssociation
             }
             chemin.Reverse();
             return chemin.ToArray();
+            // FIn
         }
 
 
@@ -599,7 +625,7 @@ namespace GrapheAssociation
             int height = 5000;
             
             // Calcul de la position de chaque sommet sur le graphe
-            positions = CalculerPosition3(width, height, listeGares);
+            positions = CalculerPosition(width, height, listeGares);
 
             // Création du canvas pour le graphe
             using (var bitmap = new SKBitmap(width, height))
@@ -653,7 +679,7 @@ namespace GrapheAssociation
         /// <param name="height"></param>
         /// <param name="listeGares"></param>
         /// <returns></returns>
-        public Dictionary<int, SKPoint> CalculerPosition3(int width, int height, Dictionary<string, Dictionary<string, object>> listeGares)
+        public Dictionary<int, SKPoint> CalculerPosition(int width, int height, Dictionary<string, Dictionary<string, object>> listeGares)
         {
             Dictionary<int, SKPoint> positions = new Dictionary<int, SKPoint>();
 

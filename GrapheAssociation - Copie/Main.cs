@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GrapheAssociation
 {
-    internal class Main
+    public class Main
     {
         private List<Dictionary<string, object>> listeLignes;
         private Dictionary<string, Dictionary<string, object>> listeGares;
