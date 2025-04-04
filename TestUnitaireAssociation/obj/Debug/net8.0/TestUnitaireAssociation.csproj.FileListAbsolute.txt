@@ -265,3 +265,6 @@ C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu1\TestUnitaireAssociation\obj\
 C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu1\TestUnitaireAssociation\obj\Debug\net8.0\TestUnitaireAssociation.pdb
 C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu1\TestUnitaireAssociation\obj\Debug\net8.0\TestUnitaireAssociation.genruntimeconfig.cache
 C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu1\TestUnitaireAssociation\obj\Debug\net8.0\ref\TestUnitaireAssociation.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\TestUnitaireAssociation\obj\Debug\net8.0\TestUnitaireAssociation.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\TestUnitaireAssociation\obj\Debug\net8.0\refint\TestUnitaireAssociation.dll
+C:\Users\eminb\OneDrive\Documents\GitHub\PSI-Rendu2\TestUnitaireAssociation\obj\Debug\net8.0\TestUnitaireAssociation.pdb
