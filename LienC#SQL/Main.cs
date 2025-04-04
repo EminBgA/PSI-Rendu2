@@ -2,28 +2,37 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
-using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using GrapheAssociation;
 using Microsoft.VisualBasic.FileIO;
 using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Org.BouncyCastle.Tls.Crypto.Impl.BC;
-using GrapheAssociation;
-using LienC_Sql;
 
-namespace GrapheAssociation
+namespace LienC_Sql
 {
-    internal class Program
+    public class Main
     {
 
-        static void Main(string[] args)
+        string port;
+        string uid;
+        string password;
+        string serveur;
+        string instruction;
+
+        public Main()
         {
-            Main refMain = new Main();
-            /*
+            Console.WriteLine("Pour vous connecter à la base de données:");
+            Console.WriteLine("Rentrez votre numéro de serveur");
+            this.serveur = Console.ReadLine();
+            Console.WriteLine("Rentrez le numéro de port");
+            this.port = Console.ReadLine();
+            Console.WriteLine("Rentrez votre numéro d'uid");
+            this.uid = Console.ReadLine();
+            Console.WriteLine("Rentrez votre mot de passe");
+            this.password = Console.ReadLine();
+            this.instruction= "SERVER="+this.serveur+";PORT="+ this.port+"; DATABASE =plateforme;UID="+this.uid+";PASSWORD="+this.password;
+
             bool flag = true;
 
             Console.WriteLine("Bienvenue sur Liv'in Paris!");
@@ -102,21 +111,21 @@ namespace GrapheAssociation
                                 {
                                     if (ExistUtilisateur(UtilisateuraAjouté[i].Id_Utilisateur) == false)
                                     {
-                                        InsertUtilisateurIntoDB(UtilisateuraAjouté[i]);
+                                        InsertUtilisateurIntoDB(UtilisateuraAjouté[i], this.instruction);
                                     }
                                 }
                                 for (int i = 0; i < ClientsaAjouté.Count; i++)
                                 {
                                     if (ExistClient(ClientsaAjouté[i].idClient) == false)
                                     {
-                                        InsertClientIntoDBv2(ClientsaAjouté[i]);
+                                        InsertClientIntoDBv2(ClientsaAjouté[i], this.instruction);
                                     }
                                 }
                                 for (int i = 0; i < CuisiniersaAjouté.Count; i++)
                                 {
                                     if (ExistCuisinier(CuisiniersaAjouté[i].IdCuisinier) == false)
                                     {
-                                        InsertCuisinierIntoDBv2(CuisiniersaAjouté[i]);
+                                        InsertCuisinierIntoDBv2(CuisiniersaAjouté[i], this.instruction);
                                     }
                                 }
                                 Console.WriteLine("Mise à jour des données effectuées");
@@ -139,20 +148,18 @@ namespace GrapheAssociation
                     Console.WriteLine("Option invalide. Veuillez choisir 1,2 ou 3.");
                     break;
             }
-            */
+            }
 
-
-        }
 
         //Principale Méthode
-        static void RegistrationToPlatform()
+        public void RegistrationToPlatform()
         {
             Console.WriteLine("Créez un id d'utilisateur de la plateforme:");
             string idU = Console.ReadLine();
             Console.WriteLine("Créez un mot de passe d'utilisateur de la plateforme:");
             string mdp = Console.ReadLine();
             Utilisateur user1 = new Utilisateur(idU, mdp);
-            InsertUtilisateurIntoDB(user1);
+            InsertUtilisateurIntoDB(user1, instruction);
             Console.WriteLine("Bienvenue, vous êtes un nouvel utilisateur de la plateforme!");
 
             Console.WriteLine("Quel est votre nom?");
@@ -182,7 +189,7 @@ namespace GrapheAssociation
                     Console.WriteLine("Précisez votre régime alimentaire");
                     string reg = Console.ReadLine();
                     Client client = new Client(idC, nom, prénom, latitudeC, longitudeC, tel, mail, reg, idU);
-                    InsertClientIntoDB(client);
+                    InsertClientIntoDB(client,this.instruction);
                     Console.WriteLine("Bienvenue en tant que nouveau client de Liv'in Paris!");
                     break;
 
@@ -199,7 +206,7 @@ namespace GrapheAssociation
                     Console.WriteLine("quels sont vos spécialités?");
                     string specui = Console.ReadLine();
                     Cuisinier cuisinier = new Cuisinier(idcui, nom, prénom, latitudeP, longitudeP, telP, mailP, specui, idU);
-                    InsertCuisinierIntoDB(cuisinier);
+                    InsertCuisinierIntoDB(cuisinier, this.instruction);
                     Console.WriteLine("Bienvenue en tant que nouveau cuisinier de Liv'in Paris!");
                     break;
 
@@ -216,7 +223,7 @@ namespace GrapheAssociation
                     Console.WriteLine("Précisez votre régime alimentaire");
                     string reg1 = Console.ReadLine();
                     Client client1 = new Client(idC1, nom, prénom, latitudeC1, longitudeC1, tel1, mail1, reg1, idU);
-                    InsertClientIntoDB(client1);
+                    InsertClientIntoDB(client1, this.instruction);
                     Console.WriteLine("Bienvenue en tant que nouveau client de Liv'in Paris!");
                     Console.WriteLine("Votre latitude de cuisinier? Attention: Ecriture avec une virgule au lieu d'un point");
                     double latitudeP1 = Convert.ToDouble(Console.ReadLine());
@@ -230,7 +237,7 @@ namespace GrapheAssociation
                     Console.WriteLine("quels sont vos spécialités?");
                     string specui1 = Console.ReadLine();
                     Cuisinier cuisinier1 = new Cuisinier(idcui1, nom, prénom, latitudeP1, longitudeP1, telP1, mailP1, specui1, idU);
-                    InsertCuisinierIntoDB(cuisinier1);
+                    InsertCuisinierIntoDB(cuisinier1,this.instruction);
                     Console.WriteLine("Bienvenue en tant que nouveau cuisinier de Liv'in Paris!");
                     break;
                 default:
@@ -238,9 +245,9 @@ namespace GrapheAssociation
                     break;
             }
         }
-        static void ConnectionToPlatform()
+        public void ConnectionToPlatform()
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             bool flag = true;
@@ -375,7 +382,7 @@ namespace GrapheAssociation
                                 Client client = new Client(valueString3[0]);
                                 reader3.Close();
                                 Command3.Dispose();
-                                UpdateClient(client);       // Lancement de la méthode intermédiaire si l'utilisateur est bien un client
+                                UpdateClient(client, this.instruction);       // Lancement de la méthode intermédiaire si l'utilisateur est bien un client
                             }
                             else
                             {
@@ -404,7 +411,7 @@ namespace GrapheAssociation
                                 Cuisinier cuisinier = new Cuisinier(valueString4[0]);
                                 reader4.Close();
                                 Command4.Dispose();
-                                UpdateCoocker(cuisinier);  // Lancement de la méthode intermédiaire si l'utilisateur est bien un cuisinier
+                                UpdateCoocker(cuisinier, this.instruction);  // Lancement de la méthode intermédiaire si l'utilisateur est bien un cuisinier
 
                             }
                             else
@@ -435,7 +442,7 @@ namespace GrapheAssociation
                                 Client client = new Client(valueString6[0]);
                                 reader6.Close();
                                 Command6.Dispose();
-                                DeleteClient(client);  // Lancement de la méthode intermédiaire si l'utilisateur est bien un cuisinier
+                                DeleteClient(client, this.instruction);  // Lancement de la méthode intermédiaire si l'utilisateur est bien un cuisinier
 
                             }
                             else
@@ -465,7 +472,7 @@ namespace GrapheAssociation
                                 Cuisinier cuisinier = new Cuisinier(valueString5[0]);
                                 reader5.Close();
                                 Command5.Dispose();
-                                DeleteCuisinier(cuisinier);  // Lancement de la méthode intermédiaire si l'utilisateur est bien un cuisinier
+                                DeleteCuisinier(cuisinier, this.instruction);  // Lancement de la méthode intermédiaire si l'utilisateur est bien un cuisinier
 
                             }
                             else
@@ -495,7 +502,7 @@ namespace GrapheAssociation
                                 Utilisateur utilisateur = new Utilisateur(valueString7[0]);
                                 reader7.Close();
                                 Command7.Dispose();
-                                DeleteUser(utilisateur);
+                                DeleteUser(utilisateur, this.instruction);
 
                             }
                             else
@@ -525,7 +532,7 @@ namespace GrapheAssociation
                                 Cuisinier cu = new Cuisinier(valueString8[0]);
                                 reader8.Close();
                                 Command8.Dispose();
-                                ListeClientLivreParCuisinier(cu);      // Lancement de la méthode intermédiaire si l'utilisateur est bien un client
+                                ListeClientLivreParCuisinier(cu, this.instruction);      // Lancement de la méthode intermédiaire si l'utilisateur est bien un client
                             }
                             else
                             {
@@ -556,7 +563,7 @@ namespace GrapheAssociation
                                 reader9.Close();
                                 Command9.Dispose();
                                 Console.WriteLine("Voici les commandes que vous avez à livrés avec le trajet optimal à suivre");
-                                TrajetaSuivrepourCuisinier(cu);
+                                TrajetaSuivrepourCuisinier(cu, this.instruction);
                             }
                             break;
                         case 10:
@@ -583,9 +590,9 @@ namespace GrapheAssociation
         //Méthode intermédiaire   
 
         //Méthode menu 1
-        static void InsertUtilisateurIntoDB(Utilisateur item)
+        static void InsertUtilisateurIntoDB(Utilisateur item, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -608,10 +615,10 @@ namespace GrapheAssociation
             }
             command.Dispose();
         }
-        static void InsertClientIntoDB(Client item)
+        static void InsertClientIntoDB(Client item, string instruction)
 
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             //Création de l'objet Command avec la requête
@@ -664,88 +671,61 @@ namespace GrapheAssociation
                 Command.Dispose();
             }
         }
-       // static void InsertCuisinierIntoDB(Cuisinier item)
-
-       // {
-         //   string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-         //   MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-         //   Connexion.Open();
-            //Création de l'objet Command avec la requête
-
-          //  string Requete = "select MAX(IdCuisinier) AS IdCuisinier from cuisinier;";
-
-         //   MySqlCommand Command = Connexion.CreateCommand();
-         //   Command.CommandText = Requete;
-            // Execution de la requête et récupération des résultats dans l'objet MySqlDataReader
-          //  MySqlDataReader reader = Command.ExecuteReader();
-
-         //   string IdCuisinier = "";
-            // Récupération des résultats dans des variables C#
-          //  while (reader.Read())
-          //  {
-          //      IdCuisinier = reader["IdCuisinier"].ToString();
-         //   }
-          //  reader.Close();
-          
-           // int PartieNumerique = Convert.ToInt32(IdCuisinier.Substring(2));
-          //  PartieNumerique++;
-           // string NouveauIdCuisinier = "CU" + PartieNumerique.ToString();
-
-            //Console.WriteLine("Vous voulez insérez l'utilisateur " + NouveauIdCuisinier+ " dans la BDD");
-           // string createClient = $@"INSERT INTO plateforme.cuisinier (IdCuisinier, NomP, prenomP, AdresseP, telephoneP, EmailP, spécialités, Id_Utilisateur)
-            //                    VALUES ('{NouveauIdCuisinier}', '{item.nomP}', '{item.prenomP}', '{item.adresseP}', '{item.telephoneP}', '{item.emailP}', '{item.spécialités}', '{item.Id_Utilisateur}')";
-           // item.IdCuisinier = NouveauIdCuisinier;  //on modifie l'id du cuisinier également sur C#
-
-           // string IdClient = "";
-            // Récupération des résultats dans des variables C#
-           // while (reader.Read())
-           // {
-            //    IdClient = reader["IdClient"].ToString();
-            //}
-           // reader.Close();
-            // traitement du CodeC récupéré pour générer un nouveau C672
-
-           // int PartieNumerique = Convert.ToInt32(IdClient.Substring(2));
-            //PartieNumerique++;
-            //string NouveauIdClient = "CL" + PartieNumerique.ToString();
-
-           // Console.WriteLine("Vous voulez insérez le client " + NouveauIdClient + " dans la BDD");
-
-            //item.idClient = NouveauIdClient; //on ajoute aussi l'id du client sur C#
-
-
-           // Console.WriteLine(NouveauIdClient);
-           // string createClient = @"INSERT INTO plateforme.client (idClient, NomC, PrénomC, LatitudeC, LongitudeC, TelephoneC, EmailC, regimeAlC, Id_Utilisateur)
-            //                   VALUES (@idClient, @NomC, @PrénomC, @LatitudeC, @LongitudeC, @TelephoneC, @EmailC, @regimeAlC, @Id_Utilisateur)";
-
-           // using (MySqlCommand command = new MySqlCommand(createClient, Connexion))
-            //{
-            //    command.Parameters.AddWithValue("@idClient", NouveauIdClient);
-            //    command.Parameters.AddWithValue("@NomC", item.NomC);
-           //     command.Parameters.AddWithValue("@PrénomC", item.PrénomC);
-             //   command.Parameters.AddWithValue("@LatitudeC", item.latitudeC);
-            //    command.Parameters.AddWithValue("@LongitudeC", item.longitudeC);
-             //   command.Parameters.AddWithValue("@TelephoneC", item.TelephoneC);
-             //   command.Parameters.AddWithValue("@EmailC", item.EmailC);
-             //   command.Parameters.AddWithValue("@regimeAlC", item.regimeAlC);
-              //  command.Parameters.AddWithValue("@Id_Utilisateur", item.Id_Utilisateur);
-
-             //   try
-             //   {
-              //      command.ExecuteNonQuery();
-              //  }
-              //  catch (MySqlException e)
-               // {
-               //     Console.WriteLine("Erreur connexion: " + e.ToString());
-               //     Console.ReadLine();
-               // }
-           // }
-        //}
-      
-
-        static void InsertClientIntoDBv2(Client item)
+        static void InsertCuisinierIntoDB(Cuisinier item, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
+            MySqlConnection Connexion = new MySqlConnection(ConnexionString);
+            Connexion.Open();
+            //Création de l'objet Command avec la requête
+            string Requete = "select MAX(IdCuisinier) AS IdCuisinier from cuisinier;";
+            MySqlCommand Command = Connexion.CreateCommand();
+            Command.CommandText = Requete;
+            // Execution de la requête et récupération des résultats dans l'objet MySqlDataReader
+            MySqlDataReader reader = Command.ExecuteReader();
+            string IdCuisinier = "";
+            // Récupération des résultats dans des variables C#
+            while (reader.Read())
+            {
+                IdCuisinier = reader["IdCuisinier"].ToString();
+            }
+            reader.Close();
+
+            int PartieNumerique = Convert.ToInt32(IdCuisinier.Substring(2));
+            PartieNumerique++;
+            string NouveauIdCuisinier = "CU" + PartieNumerique.ToString();
+
+            Console.WriteLine("Vous voulez insérez le cuisinier" + NouveauIdCuisinier + " dans la BDD");
+            string createCuisinier = $@"INSERT INTO plateforme.cuisinier (IdCuisinier, NomP, prenomP, LatitudeP, LongitudeP, telephoneP, EmailP, spécialités, Id_Utilisateur)
+                                VALUES (@idCuisinier, @NomP, @PrénomP, @LatitudeP, @LongitudeP, @TelephoneP, @EmailP, @specialites, @Id_Utilisateur)"; //('{NouveauIdCuisinier}', '{item.nomP}', '{item.prenomP}', '{Convert.ToString(item.latitudeP)}','{Convert.ToString(item.longitudeP)}' '{item.telephoneP}', '{item.emailP}', '{item.spécialités}', '{item.Id_Utilisateur}')
+            item.IdCuisinier = NouveauIdCuisinier;  //on modifie l'id du cuisinier également sur C#
+
+            using (MySqlCommand command = new MySqlCommand(createCuisinier, Connexion))
+            {
+                command.Parameters.AddWithValue("@idCuisinier", NouveauIdCuisinier);
+                command.Parameters.AddWithValue("@NomP", item.nomP);
+                command.Parameters.AddWithValue("@PrénomP", item.prenomP);
+                command.Parameters.AddWithValue("@LatitudeP", item.latitudeP);
+                command.Parameters.AddWithValue("@LongitudeP", item.longitudeP);
+                command.Parameters.AddWithValue("@TelephoneP", item.telephoneP);
+                command.Parameters.AddWithValue("@EmailP", item.emailP);
+                command.Parameters.AddWithValue("@specialites", item.spécialités);
+                command.Parameters.AddWithValue("@Id_Utilisateur", item.Id_Utilisateur);
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine("Erreur connexion: " + e.ToString());
+                    Console.ReadLine();
+                }
+                Command.Dispose();
+            }
+        }
+        static void InsertClientIntoDBv2(Client item, string instruction)
+        {
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             Console.WriteLine("Vous voulez insérez le client " + item.idClient + " dans la BDD");
@@ -789,34 +769,34 @@ namespace GrapheAssociation
                 command.Dispose();
             }
         }
-        static void InsertCuisinierIntoDBv2(Cuisinier item)
-            {
-                string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-                MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-                Connexion.Open();
-                Console.WriteLine("Vous voulez insérez le cuisinier" + item.IdCuisinier + " dans la BDD");
-                string createClient = $@"INSERT IGNORE INTO plateforme.cuisinier (IdCuisinier, NomP, prenomP, LatitudeP, LongitudeP, telephoneP, EmailP, spécialités, Id_Utilisateur)
+        static void InsertCuisinierIntoDBv2(Cuisinier item,string instruction)
+        {
+            string ConnexionString = instruction;
+            MySqlConnection Connexion = new MySqlConnection(ConnexionString);
+            Connexion.Open();
+            Console.WriteLine("Vous voulez insérez le cuisinier" + item.IdCuisinier + " dans la BDD");
+            string createClient = $@"INSERT IGNORE INTO plateforme.cuisinier (IdCuisinier, NomP, prenomP, LatitudeP, LongitudeP, telephoneP, EmailP, spécialités, Id_Utilisateur)
                                 VALUES ('{item.IdCuisinier}', '{item.nomP}', '{item.prenomP}', '{Convert.ToString(item.latitudeP)}', '{Convert.ToString(item.longitudeP)}', '{item.telephoneP}', '{item.emailP}', '{item.spécialités}', '{item.Id_Utilisateur}')";
 
-                MySqlCommand command = Connexion.CreateCommand();
-                command.CommandText = createClient;
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (MySqlException e)
-                {
-                    Console.WriteLine("Erreur connexion: " + e.ToString());
-                    Console.ReadLine();
-                    return;
-                }
-                command.Dispose();
+            MySqlCommand command = Connexion.CreateCommand();
+            command.CommandText = createClient;
+            try
+            {
+                command.ExecuteNonQuery();
             }
-            //Méthode menu 2
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Erreur connexion: " + e.ToString());
+                Console.ReadLine();
+                return;
+            }
+            command.Dispose();
+        }
+        //Méthode menu 2
 
-        static void UpdateClient(Client client)
+        static void UpdateClient(Client client, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             string idC = client.idClient;
@@ -920,11 +900,42 @@ namespace GrapheAssociation
                 }
             }
             Console.WriteLine("Si il y a eu modification, voici vos nouvelles informations:");
-            SpecificClient(idC);
+            SpecificClient(idC, instruction);
         }
-        static void UpdateCoocker(Cuisinier cuisinier)
+
+        static void SpecificCooker(string idC, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            {
+                string ConnexionString = instruction;
+                MySqlConnection Connexion = new MySqlConnection(ConnexionString);
+                Connexion.Open();
+
+                MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
+                ParamIdC.Value = idC;
+
+                string Requete = "Select * from cuisinier WHERE IDCuisinier=@idC;";
+                MySqlCommand Command = Connexion.CreateCommand();
+                Command.CommandText = Requete;
+                Command.Parameters.Add(ParamIdC);
+                MySqlDataReader reader = Command.ExecuteReader();
+                Console.WriteLine("Voici vos nouvelles informations de cuisinier:");
+                string[] valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " , ");
+                    }
+                    Console.WriteLine();
+                }
+                reader.Close();
+                Command.Dispose();
+            }
+        }
+        static void UpdateCoocker(Cuisinier cuisinier, string instruction)
+        {
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             string idC = cuisinier.IdCuisinier;
@@ -1028,13 +1039,11 @@ namespace GrapheAssociation
                 }
             }
             Console.WriteLine("Si il y a eu modification, voici vos nouvelles informations:");
-            SpecificCooker(idC);
+            SpecificCooker(idC, instruction);
         }
-
-
-        static void DeleteClient(Client client)
+        static void DeleteClient(Client client, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             string idC = client.idClient;
@@ -1047,9 +1056,9 @@ namespace GrapheAssociation
             int rowsAffected = Command.ExecuteNonQuery();
             Console.WriteLine("Client" + client.idClient + " supprimé");
         }
-        static void DeleteCuisinier(Cuisinier cuisinier)
+        static void DeleteCuisinier(Cuisinier cuisinier, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             string idC = cuisinier.IdCuisinier;
@@ -1062,9 +1071,9 @@ namespace GrapheAssociation
             int rowsAffected = Command.ExecuteNonQuery();
             Console.WriteLine("Cuisinier" + cuisinier.IdCuisinier + " supprimé");
         }
-        static void DeleteUser(Utilisateur utilisateur)
+        static void DeleteUser(Utilisateur utilisateur, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             string idC = utilisateur.Id_Utilisateur;
@@ -1090,10 +1099,10 @@ namespace GrapheAssociation
             Console.WriteLine("Utilisateur" + utilisateur.Id_Utilisateur + " supprimé");
         }
 
-        static void ListeClientLivreParCuisinier(Cuisinier item)
+        static void ListeClientLivreParCuisinier(Cuisinier item, string instruction)
         {
             string idC = item.IdCuisinier;
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             MySqlParameter ParamId = new MySqlParameter("@id", MySqlDbType.VarChar);
@@ -1118,13 +1127,13 @@ namespace GrapheAssociation
             Command.Dispose();
         }
 
-        static void TrajetaSuivrepourCuisinier(Cuisinier item)
+        static void TrajetaSuivrepourCuisinier(Cuisinier item, string instruction)
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             // il faut calculer le chemin à suivre ici
-            string cheminaSuivre=" ";
+            string cheminaSuivre = " ";
             MySqlParameter ParamcheminaSuivre = new MySqlParameter("@chemin", MySqlDbType.VarChar);
             ParamcheminaSuivre.Value = cheminaSuivre;
             MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
@@ -1135,7 +1144,7 @@ namespace GrapheAssociation
             CommandPrel.Parameters.Add(ParamcheminaSuivre);
             CommandPrel.Parameters.Add(ParamIdC);
             int rowsAffected1 = CommandPrel.ExecuteNonQuery();
-     
+
             string Requete = "SELECT IdCommande, CheminOpt FROM livrer WHERE Statut = 'non livré' AND IdCuisinier = @idC;";
             MySqlCommand Command = Connexion.CreateCommand();
             Command.CommandText = Requete;
@@ -1155,9 +1164,9 @@ namespace GrapheAssociation
             Command.Dispose();
         }
         // Méthode menu 3
-        static void ClientAlphabeticOrder()
+        public void ClientAlphabeticOrder()
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -1180,10 +1189,10 @@ namespace GrapheAssociation
             Command.Dispose();
         }
 
-        static bool ExistUtilisateur(string idU)
+        public bool ExistUtilisateur(string idU)
         {
             bool flag = true;
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -1214,10 +1223,10 @@ namespace GrapheAssociation
             return flag;
         }
 
-        static bool ExistClient(string idC)
+        public bool ExistClient(string idC)
         {
             bool flag = true;
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -1247,10 +1256,10 @@ namespace GrapheAssociation
             Command.Dispose();
             return flag;
         }
-        static bool ExistCuisinier(string idC)
+        public bool ExistCuisinier(string idC)
         {
             bool flag = true;
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -1281,10 +1290,10 @@ namespace GrapheAssociation
             return flag;
         }
 
-        static void SpecificClient(string idC)
+        static void SpecificClient(string idC,string instruction)
         {
-            
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -1309,93 +1318,12 @@ namespace GrapheAssociation
             }
             reader.Close();
             Command.Dispose();
-            
-        } 
-        static void InsertCuisinierIntoDB(Cuisinier item)
-        {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-            MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-            Connexion.Open();
-            //Création de l'objet Command avec la requête
-            string Requete = "select MAX(IdCuisinier) AS IdCuisinier from cuisinier;";
-            MySqlCommand Command = Connexion.CreateCommand();
-            Command.CommandText = Requete;
-            // Execution de la requête et récupération des résultats dans l'objet MySqlDataReader
-            MySqlDataReader reader = Command.ExecuteReader();
-            string IdCuisinier = "";
-            // Récupération des résultats dans des variables C#
-            while (reader.Read())
-            {
-                IdCuisinier = reader["IdCuisinier"].ToString();
-            }
-            reader.Close();
 
-            int PartieNumerique = Convert.ToInt32(IdCuisinier.Substring(2));
-            PartieNumerique++;
-            string NouveauIdCuisinier = "CU" + PartieNumerique.ToString();
-
-            Console.WriteLine("Vous voulez insérez le cuisinier" + NouveauIdCuisinier + " dans la BDD");
-            string createCuisinier = $@"INSERT INTO plateforme.cuisinier (IdCuisinier, NomP, prenomP, LatitudeP, LongitudeP, telephoneP, EmailP, spécialités, Id_Utilisateur)
-                                VALUES (@idCuisinier, @NomP, @PrénomP, @LatitudeP, @LongitudeP, @TelephoneP, @EmailP, @specialites, @Id_Utilisateur)"; //('{NouveauIdCuisinier}', '{item.nomP}', '{item.prenomP}', '{Convert.ToString(item.latitudeP)}','{Convert.ToString(item.longitudeP)}' '{item.telephoneP}', '{item.emailP}', '{item.spécialités}', '{item.Id_Utilisateur}')
-            item.IdCuisinier = NouveauIdCuisinier;  //on modifie l'id du cuisinier également sur C#
-
-            using (MySqlCommand command = new MySqlCommand(createCuisinier, Connexion))
-            {
-                command.Parameters.AddWithValue("@idCuisinier", NouveauIdCuisinier);
-                command.Parameters.AddWithValue("@NomP", item.nomP);
-                command.Parameters.AddWithValue("@PrénomP", item.prenomP);
-                command.Parameters.AddWithValue("@LatitudeP", item.latitudeP);
-                command.Parameters.AddWithValue("@LongitudeP", item.longitudeP);
-                command.Parameters.AddWithValue("@TelephoneP", item.telephoneP);
-                command.Parameters.AddWithValue("@EmailP", item.emailP);
-                command.Parameters.AddWithValue("@specialites", item.spécialités);
-                command.Parameters.AddWithValue("@Id_Utilisateur", item.Id_Utilisateur);
-
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (MySqlException e)
-                {
-                    Console.WriteLine("Erreur connexion: " + e.ToString());
-                    Console.ReadLine();
-                }
-                Command.Dispose();
-            }
         }
-        static void SpecificCooker(string idC)
-        {
-            {
-                string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-                MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-                Connexion.Open();
 
-                MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-                ParamIdC.Value = idC;
-
-                string Requete = "Select * from cuisinier WHERE IDCuisinier=@idC;";
-                MySqlCommand Command = Connexion.CreateCommand();
-                Command.CommandText = Requete;
-                Command.Parameters.Add(ParamIdC);
-                MySqlDataReader reader = Command.ExecuteReader();
-                Console.WriteLine("Voici vos nouvelles informations de cuisinier:");
-                string[] valueString = new string[reader.FieldCount];
-                while (reader.Read())
-                {
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        valueString[i] = reader.GetValue(i).ToString();
-                        Console.Write(valueString[i] + " , ");
-                    }
-                    Console.WriteLine();
-                }
-                reader.Close();
-                Command.Dispose();
-            }
-        }
-        static void CookerAlphabeticOrder()
+        public void CookerAlphabeticOrder()
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -1417,9 +1345,9 @@ namespace GrapheAssociation
             reader.Close();
             Command.Dispose();
         }
-        static void ClientStreetOrder()
+        public void ClientStreetOrder()
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
 
@@ -1442,9 +1370,9 @@ namespace GrapheAssociation
             Command.Dispose();
 
         }
-        static void ClientCumulativeAchatOrder()
+        public void ClientCumulativeAchatOrder()
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             string Requete = "SELECT c.IdClient, NomC, PrénomC, SUM(p.prix) AS AchatCumulés FROM Client c JOIN Commande cmd ON c.IdClient = cmd.IdClient JOIN constituer_de_ cd ON cmd.IdCommande = cd.IdCommande JOIN Plat p ON cd.Id_Plat = p.Id_Plat GROUP BY c.IdClient ORDER BY AchatCumulés ASC;";
@@ -1467,12 +1395,12 @@ namespace GrapheAssociation
 
         }
 
-        static void CommandeNationalitePlat()
+        public void CommandeNationalitePlat()
 
         {
             Console.WriteLine("Saisissez l'id d'un client:");
             string idC = Console.ReadLine();
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             MySqlParameter ParamId = new MySqlParameter("@id", MySqlDbType.VarChar);
@@ -1496,10 +1424,9 @@ namespace GrapheAssociation
             reader.Close();
             Command.Dispose();
         }
-
-        static void MoyennePrixCommande()
+        public void MoyennePrixCommande()
         {
-            string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
+            string ConnexionString = instruction;
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             string Requete = "SELECT AVG(prix) as MoyennePrixCommande FROM Commande com JOIN constituer_de_ cd ON com.IdCommande=cd.IdCommande JOIN Plat p ON cd.Id_Plat = p.Id_Plat ORDER BY MoyennePrixCommande ASC;";
@@ -1521,369 +1448,6 @@ namespace GrapheAssociation
             Command.Dispose();
 
         }
-
-
-        // static void DeleteClient(Client client)
-        //  {
-        //  string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        // MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        // Connexion.Open();
-        // string idC = client.idClient;
-        // MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        // ParamIdC.Value = idC;
-        //  string requete = "DELETE FROM client WHERE IdClient = @idC";
-        // MySqlCommand Command = Connexion.CreateCommand();
-        // Command.CommandText = requete;
-        // ommand.Parameters.Add(ParamIdC);
-        // int rowsAffected = Command.ExecuteNonQuery();
-        // Console.WriteLine("Client" + client.idClient + " supprimé");
-        // }
-        // static void DeleteCuisinier(Cuisinier cuisinier)
-        //  {
-        //  string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //  MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //      Connexion.Open();
-        //  string idC = cuisinier.IdCuisinier;
-        // MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        // ParamIdC.Value = idC;
-        // string requete = "DELETE FROM cuisinier WHERE IDCuisinier = @idC";
-        // MySqlCommand Command = Connexion.CreateCommand();
-        // Command.CommandText = requete;
-        // Command.Parameters.Add(ParamIdC);
-        // int rowsAffected = Command.ExecuteNonQuery();
-        // Console.WriteLine("Cuisinier" + cuisinier.IdCuisinier + " supprimé");
-        // }
-        // static void DeleteUser(Utilisateur utilisateur)
-        //  {
-        // string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //  MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        // Connexion.Open();
-        // string idC = utilisateur.Id_Utilisateur;
-        // MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        // ParamIdC.Value = idC;
-        // string requete2 = "DELETE FROM cuisinier WHERE Id_Utilisateur = @idC";
-        // MySqlCommand Command2 = Connexion.CreateCommand();
-        // Command2.CommandText = requete2;
-        // Command2.Parameters.Add(ParamIdC);
-        // int rowsAffected2 = Command2.ExecuteNonQuery();
-        //  Console.WriteLine(" Votre compte cuisinier est supprimé");
-        // string requete3 = "DELETE FROM client WHERE Id_Utilisateur = @idC";
-        //  MySqlCommand Command3 = Connexion.CreateCommand();
-        // Command3.CommandText = requete3;
-        // Command3.Parameters.Add(ParamIdC);
-        // int rowsAffected3 = Command3.ExecuteNonQuery();
-        // Console.WriteLine(" Votre compte client est supprimé");
-        // string requete = "DELETE FROM utilisateur WHERE Id_Utilisateur = @idC";
-        //  MySqlCommand Command = Connexion.CreateCommand();
-        // Command.CommandText = requete;
-        //  Command.Parameters.Add(ParamIdC);
-        //  int rowsAffected = Command.ExecuteNonQuery();
-        //  Console.WriteLine("Utilisateur" + utilisateur.Id_Utilisateur + " supprimé");
-        // }
-
-        // static void ListeClientLivreParCuisinier(Cuisinier item)
-        //{
-        //string idC = item.IdCuisinier;
-        // string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //Connexion.Open();
-        //MySqlParameter ParamId = new MySqlParameter("@id", MySqlDbType.VarChar);
-        // ParamId.Value = idC;
-        //string Requete = "SELECT DISTINCT c.idClient FROM Client c JOIN Commande cmd ON c.idClient = cmd.idClient JOIN Livrer l ON cmd.idCommande = l.IdCommande JOIN Cuisinier cu ON l.IDCuisinier = cu.IDCuisinier WHERE cu.IDCuisinier = @id AND l.Statut = 'livré';";
-        //MySqlCommand Command = Connexion.CreateCommand();
-        //Command.Parameters.Add(ParamId);
-        //Command.CommandText = Requete;
-        //MySqlDataReader reader = Command.ExecuteReader();
-        //Console.WriteLine("Voici la liste des clients que le cuisinier a livré");
-        //string[] valueString = new string[reader.FieldCount];
-        //   while (reader.Read())
-        //   {
-        //       for (int i = 0; i < reader.FieldCount; i++)
-        //       {
-        //valueString[i] = reader.GetValue(i).ToString();
-        // Console.Write(valueString[i] + " , ");
-        //}
-        // Console.WriteLine();
-        //}
-        // reader.Close();
-        // Command.Dispose();
-        //}
-
-        // static void TrajetaSuivrepourCuisinier(Cuisinier item)
-        //{
-        //string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //Connexion.Open();
-
-        //= new GrapheAssociation.Graphe(40);
-
-        // il faut calculer le chemin à suivre ici
-        //string cheminaSuivre =" ";
-        //MySqlParameter ParamcheminaSuivre = new MySqlParameter("@chemin", MySqlDbType.VarChar);
-        // ParamcheminaSuivre.Value = cheminaSuivre;
-        //MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        // ParamIdC.Value = item.IdCuisinier;
-        //string requetePrel = "UPDATE commande SET CheminOpt = @chemin WHERE IDCuisinier = @idC";
-        //MySqlCommand CommandPrel = Connexion.CreateCommand();
-        //CommandPrel.CommandText = requetePrel;
-        //CommandPrel.Parameters.Add(ParamcheminaSuivre);
-        //int rowsAffected1 = CommandPrel.ExecuteNonQuery();
-
-        //string Requete = "SELECT IdCommande, CheminOpt FROM livrer WHERE Statut = 'non livré' AND IdCuisinier = @idC;";
-        //MySqlCommand Command = Connexion.CreateCommand();
-        //Command.CommandText = Requete;
-        //Command.Parameters.Add(ParamIdC);
-        //MySqlDataReader reader = Command.ExecuteReader();
-        //string[] valueString = new string[reader.FieldCount];
-        //   while (reader.Read())
-        //  {
-        // for (int i = 0; i < reader.FieldCount; i++)
-        //  {
-        //valueString[i] = reader.GetValue(i).ToString();
-        //Console.Write(valueString[i] + " , ");
-        //}
-        //Console.WriteLine();
-        //}
-        // reader.Close();
-        //Command.Dispose();
-        //}
-        // Méthode menu 3
-
-        // static bool ExistUtilisateur(string idU)
-        // {
-        // bool flag = true;
-        //string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        // MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //Connexion.Open();
-        //
-        //MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        //ParamIdC.Value = idU;
-        //
-        //string Requete = "Select Id_Utilisateur from Utilisateur WHERE Id_Utilisateur=@idC;";
-        //MySqlCommand Command = Connexion.CreateCommand();
-        //Command.CommandText = Requete;
-        //Command.Parameters.Add(ParamIdC);
-        //MySqlDataReader reader = Command.ExecuteReader();
-        //string[] valueString = new string[reader.FieldCount];
-        //    while (reader.Read())
-        //    {
-        //       for (int i = 0; i < reader.FieldCount; i++)
-        //        {
-        //valueString[i] = reader.GetValue(i).ToString();
-        //Console.Write(valueString[i] + " , ");
-        //}
-        //  Console.WriteLine();
-        // }
-        //   if (valueString[0] == null)
-        //    {
-        //flag = false;
-        //}
-        // reader.Close();
-        //  Command.Dispose();
-        //      return flag;
-        //}
-
-        //static bool ExistClient(string idC)
-        //{
-        //bool flag = true;
-        //string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        // Connexion.Open();
-        //
-        //MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        //ParamIdC.Value = idC;
-
-        //string Requete = "Select IdClient from client WHERE IdClient=@idC;";
-        //MySqlCommand Command = Connexion.CreateCommand();
-        //Command.CommandText = Requete;
-        //Command.Parameters.Add(ParamIdC);
-        //MySqlDataReader reader = Command.ExecuteReader();
-        // string[] valueString = new string[reader.FieldCount];
-        //    while (reader.Read())
-        ////   {
-        //      for (int i = 0; i < reader.FieldCount; i++)
-        //     {
-        //valueString[i] = reader.GetValue(i).ToString();
-        // Console.Write(valueString[i] + " , ");
-        //}
-        //  Console.WriteLine();
-        //}
-        //     if (valueString[0] == null)
-        //   {
-        //flag = false;
-        //}
-        //  reader.Close();
-        // Command.Dispose();
-        //     return flag;
-        //}
-        //static bool ExistCuisinier(string idC)
-        //{
-        //bool flag = true;
-        //        string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //       MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //        Connexion.Open();
-        //
-        //       MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        //        ParamIdC.Value = idC;
-        //
-        //       string Requete = "Select IdCuisinier from cuisinier WHERE IdCuisinier=@idC;";
-        //       MySqlCommand Command = Connexion.CreateCommand();
-        //       Command.CommandText = Requete;
-        //        Command.Parameters.Add(ParamIdC);
-        //       MySqlDataReader reader = Command.ExecuteReader();
-        //       string[] valueString = new string[reader.FieldCount];
-        //       while (reader.Read())
-        //      {
-        //          for (int i = 0; i < reader.FieldCount; i++)
-        //         {
-        //              valueString[i] = reader.GetValue(i).ToString();
-        //             Console.Write(valueString[i] + " , ");
-        //           }
-        // Console.WriteLine();
-        //      }
-        //      if (valueString[0] == null)
-        //     {
-        //  flag = false;
-        //      }
-        //      reader.Close();
-        //      Command.Dispose();
-        //     return flag;
-        // }
-        //
-        //static void SpecificClient(string idC)
-        //{
-        // {
-        //              string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //             Connexion.Open();
-        //
-        //             MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        //             ParamIdC.Value = idC;
-        //
-        //            MySqlCommand Command = Connexion.CreateCommand();
-        //             Command.CommandText = Requete;
-        //            Command.Parameters.Add(ParamIdC);
-        //            MySqlDataReader reader = Command.ExecuteReader();
-        //            Console.WriteLine("Voici vos nouvelles informations de client:");
-        //            string[] valueString = new string[reader.FieldCount];
-        //            while (reader.Read())
-        //            {
-        //                for (int i = 0; i < reader.FieldCount; i++)
-        ////                {
-        //////                    valueString[i] = reader.GetValue(i).ToString();
-        //                  Console.Write(valueString[i] + " , ");
-        //               }
-        //              Console.WriteLine();
-        //          }
-        // reader.Close();
-        //Command.Dispose();
-        //      }
-        //}
-        // static void SpecificCooker(string idC)
-        //   {
-        //       {
-        //           string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //           MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //           Connexion.Open();
-        //
-        //          MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
-        //          ParamIdC.Value = idC;
-        //
-        // string Requete = "Select * from cuisinier WHERE IDCuisinier=@idC;";
-        //          MySqlCommand Command = Connexion.CreateCommand();
-        //         Command.CommandText = Requete;
-        //        Command.Parameters.Add(ParamIdC);
-        //        MySqlDataReader reader = Command.ExecuteReader();
-        //       Console.WriteLine("Voici vos nouvelles informations de cuisinier:");
-        //       string[] valueString = new string[reader.FieldCount];
-        //       while (reader.Read())
-        //      {
-        //          for (int i = 0; i < reader.FieldCount; i++)
-        //          {
-        //            valueString[i] = reader.GetValue(i).ToString();
-        //            Console.Write(valueString[i] + " , ");
-        //           }
-        //Console.WriteLine();
-        //      }
-        //reader.Close();
-        //       Command.Dispose();
-        //    }
-        //}
-        //static void CookerAlphabeticOrder()
-        // {
-        //      string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //      MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //      Connexion.Open();
-        //
-        //      string Requete = "Select * from Cuisinier order by nomP ASC;";
-        //       MySqlCommand Command = Connexion.CreateCommand();
-        //      Command.CommandText = Requete;
-        //     MySqlDataReader reader = Command.ExecuteReader();
-        //      string[] valueString = new string[reader.FieldCount];
-        //     while (reader.Read())
-        //     {
-        //         for (int i = 0; i < reader.FieldCount; i++)
-        //         {
-        //            valueString[i] = reader.GetValue(i).ToString();
-        //             Console.Write(valueString[i] + " , ");
-        //         }
-        //Console.WriteLine();
-        //     }
-        //reader.Close();
-        //  Command.Dispose();
-        // }
-        //static void ClientStreetOrder()
-        //  {
-        //     string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //      MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //     Connexion.Open();
-        //
-        //     string Requete = "Select * from Client order by AdresseC ASC;";
-        //     MySqlCommand Command = Connexion.CreateCommand();
-        //    Command.CommandText = Requete;
-        //    MySqlDataReader reader = Command.ExecuteReader();
-        //   Console.WriteLine("Voici la liste des clients ordonnées par adresse:");
-        //    string[] valueString = new string[reader.FieldCount];
-        //    while (reader.Read())
-        //   {
-        //       for (int i = 0; i < reader.FieldCount; i++)
-        //       {
-        //           valueString[i] = reader.GetValue(i).ToString();
-        //           Console.Write(valueString[i] + " , ");
-        //       }
-        //Console.WriteLine();
-        //    }
-        //reader.Close();
-        //    Command.Dispose();
-
-        // }
-        //static void ClientCumulativeAchatOrder()
-        // {
-        //     string ConnexionString = "SERVER=localhost;PORT=3306;DATABASE=plateforme;UID=root;PASSWORD=123";
-        //     MySqlConnection Connexion = new MySqlConnection(ConnexionString);
-        //     Connexion.Open();
-        //     string Requete = "SELECT c.IdClient, NomC, PrénomC, SUM(p.prix) AS AchatCumulés FROM Client c JOIN Commande cmd ON c.IdClient = cmd.IdClient JOIN constituer_de_ cd ON cmd.IdCommande = cd.IdCommande JOIN Plat p ON cd.Id_Plat = p.Id_Plat GROUP BY c.IdClient ORDER BY AchatCumulés ASC;";
-        //     MySqlCommand Command = Connexion.CreateCommand();
-        //     Command.CommandText = Requete;
-        //    MySqlDataReader reader = Command.ExecuteReader();
-        //    Console.WriteLine("Voici la liste des clients ordonnées par ordre croissant des achats cumulés:");
-        //    string[] valueString = new string[reader.FieldCount];
-        //    while (reader.Read())
-        ////    {
-        //       for (int i = 0; i < reader.FieldCount; i++)
-        //       {
-        //           valueString[i] = reader.GetValue(i).ToString();
-        //          Console.Write(valueString[i] + " , ");
-        //      }
-        //Console.WriteLine();
-        // }
-        //reader.Close();
-        //    Command.Dispose();
-
-        //}
-
-
-        //méthode lien .csv/BDD
         static List<Client> GetListClientsFromCSV()
         {
             List<Client> ListeClient = new List<Client>();
@@ -1891,7 +1455,7 @@ namespace GrapheAssociation
             //récupérer chaque ligne du fichier csv dans un objet client
             string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
             string filePathLignes = Path.Combine(chemin, @"Clients.csv");
-            using (TextFieldParser parser = new TextFieldParser(filePathLignes)) 
+            using (TextFieldParser parser = new TextFieldParser(filePathLignes))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
@@ -2009,7 +1573,6 @@ namespace GrapheAssociation
 
             return ListeUtilisateur;
         }
-
     }
-    
+
 }
