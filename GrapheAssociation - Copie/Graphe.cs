@@ -627,7 +627,7 @@ namespace GrapheAssociation
         /// Cette fonction crée et dessine le graphe.
         /// </summary>
         /// <param name="filename"></param>
-        public void DessinerGraphe(string filename, Dictionary<string, Dictionary<string, object>> listeGares)
+        public void DessinerGraphe(string filename, Dictionary<string, Dictionary<string, object>> listeGares, Lien[] listeLientsEmpruntees)
         {
             // Taille de l'image
             int width = 8000;
@@ -639,9 +639,27 @@ namespace GrapheAssociation
             // Création du canvas pour le graphe
             using (var bitmap = new SKBitmap(width, height))
             using (var canvas = new SKCanvas(bitmap))
-            using (var paintEdge = new SKPaint { Color = SKColors.Black, StrokeWidth = 3 }) // Apparence des arêtes.
+            using (var paintEdge1 = new SKPaint { Color = SKColor.Parse("#FFD600"), StrokeWidth = 30 }) // Apparence des arêtes.
+            using (var paintEdge2 = new SKPaint { Color = SKColor.Parse("#0055C8"), StrokeWidth = 30 })
+            using (var paintEdge3 = new SKPaint { Color = SKColor.Parse("#6ECA97"), StrokeWidth = 30 })
+            using (var paintEdge3bis = new SKPaint { Color = SKColor.Parse("#9FC9AC"), StrokeWidth = 30 })
+            using (var paintEdge4 = new SKPaint { Color = SKColor.Parse("#A0006E"), StrokeWidth = 30 })
+            using (var paintEdge5 = new SKPaint { Color = SKColor.Parse("#FF7E2E"), StrokeWidth = 30 })
+            using (var paintEdge6 = new SKPaint { Color = SKColor.Parse("#6ECEB2"), StrokeWidth = 30 })
+            using (var paintEdge7 = new SKPaint { Color = SKColor.Parse("#F5A2BD"), StrokeWidth = 30 })
+            using (var paintEdge7bis = new SKPaint { Color = SKColor.Parse("#6EC4E8"), StrokeWidth = 30 })
+            using (var paintEdge8 = new SKPaint { Color = SKColor.Parse("#D5A5C9"), StrokeWidth = 30 })
+            using (var paintEdge9 = new SKPaint { Color = SKColor.Parse("#B6BD00"), StrokeWidth = 30 })
+            using (var paintEdge10 = new SKPaint { Color = SKColor.Parse("#C9910D"), StrokeWidth = 30 })
+            using (var paintEdge11 = new SKPaint { Color = SKColor.Parse("#704B1C"), StrokeWidth = 30 })
+            using (var paintEdge12 = new SKPaint { Color = SKColor.Parse("#007852"), StrokeWidth = 30 })
+            using (var paintEdge13 = new SKPaint { Color = SKColor.Parse("#6EC4E8"), StrokeWidth = 30 })
+            using (var paintEdge14 = new SKPaint { Color = SKColor.Parse("#62259D"), StrokeWidth = 30 })
+            using (var paintEdge = new SKPaint { Color = SKColors.Black, StrokeWidth = 3 })
             using (var paintNode = new SKPaint { Color = SKColors.Blue, IsAntialias = true }) // Apparence des sommets.
-            using (var paintText = new SKPaint { Color = SKColors.Red, TextSize = 40, IsAntialias = true }) // Apparence du texte.
+            using (var paintNodeStart = new SKPaint { Color = SKColors.Green, IsAntialias = true }) // Apparence des sommets.
+            using (var paintNodeFinish = new SKPaint { Color = SKColors.Red, IsAntialias = true }) // Apparence des sommets.
+            using (var paintText = new SKPaint { Color = SKColors.Black, TextSize = 120, IsAntialias = true }) // Apparence du texte.
             {
                 canvas.Clear(SKColors.White); // Remplissage du fond du canvas en blanc.
 
@@ -654,7 +672,70 @@ namespace GrapheAssociation
 
                         for (int j = 0; j < listeSommets[i].GetVoisins().Count; j++)   // Ajout de chaque arrête.
                         {
-                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge);
+                            bool drewLine = false;
+                            foreach (Lien lien in listeLientsEmpruntees)
+                            {
+                                canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge);
+                                if (listeSommets[i].GetID() == lien.GetNoeud(1).GetID() && listeSommets[i].GetVoisins()[j].GetID() == lien.GetNoeud(2).GetID())
+                                {
+                                    int ligneMetro = lien.GetNumMetro();
+                                    switch (ligneMetro)
+                                    {
+                                        case 1:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge1);
+                                            break;
+                                        case 2:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge2);
+                                            break;
+                                        case 3:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge3);
+                                            break;
+                                        case 4:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge4);
+                                            break;
+                                        case 5:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge5);
+                                            break;
+                                        case 6:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge6);
+                                            break;
+                                        case 7:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge7);
+                                            break;
+                                        case 8:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge8);
+                                            break;
+                                        case 9:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge9);
+                                            break;
+                                        case 10:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge10);
+                                            break;
+                                        case 11:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge11);
+                                            break;
+                                        case 12:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge12);
+                                            break;
+                                        case 13:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge13);
+                                            break;
+                                        case 14:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge14);
+                                            break;
+                                        case 15:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge3bis);
+                                            break;
+                                        case 16:
+                                            canvas.DrawLine(positions[listeSommets[i].GetID()], positions[listeSommets[i].GetVoisins()[j].GetID()], paintEdge7bis);
+                                            break;
+                                    }
+                                    
+                                    drewLine = true;
+                                    break;
+                                }
+                            }
+                            
                         }
                     }
                     
@@ -666,7 +747,17 @@ namespace GrapheAssociation
                 {
                     SKPoint pos = node.Value;
                     canvas.DrawCircle(pos, 20, paintNode);  // Dessin d'un cercle
-                    canvas.DrawText(node.Key.ToString(), pos.X - 12, pos.Y + 7, paintText); // Ajout de l'ID du sommet
+                    if ((int)node.Key == listeLientsEmpruntees[0].GetNoeud(1).GetID())
+                    {
+                        canvas.DrawText(listeLientsEmpruntees[0].GetNoeud(1).GetNom().ToString(), pos.X + 30, pos.Y - 20, paintText); // Ajout de l'ID du sommet
+                        canvas.DrawCircle(pos, 40, paintNodeStart);  // Dessin d'un cercle                
+                    }
+                    else if ((int)node.Key == listeLientsEmpruntees[listeLientsEmpruntees.Length - 1].GetNoeud(2).GetID())
+                    {
+                        canvas.DrawText(listeLientsEmpruntees[listeLientsEmpruntees.Length - 1].GetNoeud(2).GetNom().ToString(), pos.X + 30, pos.Y - 20, paintText); // Ajout de l'ID du sommet
+                        canvas.DrawCircle(pos, 40, paintNodeFinish);  // Dessin d'un cercle   
+                    }
+                        
                 }// Fin
 
                 //Sauvegarde de l'image en format png à l'endroit souhaité.
@@ -679,6 +770,7 @@ namespace GrapheAssociation
 
             }
         }
+
 
 
         /// <summary>

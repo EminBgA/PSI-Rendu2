@@ -112,7 +112,7 @@ namespace GrapheAssociation
             string filePathLignes = Path.Combine(chemin, @"metro_paris_temps.csv");
             string filePathGares = Path.Combine(chemin, @"metro_paris_gares2.csv");
             filePathLignes = Path.Combine(chemin, @"graphe.png");
-            graphe.DessinerGraphe(filePathLignes, listeGares);
+            graphe.DessinerGraphe(filePathLignes, listeGares, listeLien);
             FileStream file = File.Open(filePathLignes, FileMode.Open, FileAccess.Write, FileShare.None);
             Process.Start(new ProcessStartInfo(filePathLignes) { UseShellExecute = true });
         }
