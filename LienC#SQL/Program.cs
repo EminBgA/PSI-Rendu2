@@ -13,7 +13,7 @@ using MySqlX.XDevAPI;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Org.BouncyCastle.Tls.Crypto.Impl.BC;
 using GrapheAssociation;
-using LienC_Sql;
+//using LienC_Sql;
 
 namespace GrapheAssociation
 {

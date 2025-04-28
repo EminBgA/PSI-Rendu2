@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LienC#Sql")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba4f91a06c87fe02d1907429c9af255093219a95")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1100a5a4a9cef8f5251efcd2c0d0a3f93a72a68d")]
 [assembly: System.Reflection.AssemblyProductAttribute("LienC#Sql")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LienC#Sql")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

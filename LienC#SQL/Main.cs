@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using GrapheAssociation;
 using Microsoft.VisualBasic.FileIO;
 using MySql.Data.MySqlClient;
+using SkiaSharp;
 
-namespace LienC_Sql
+//namespace LienC_Sql
+namespace GrapheAssociation
 {
     public class Main
     {
@@ -1133,6 +1136,8 @@ namespace LienC_Sql
             MySqlConnection Connexion = new MySqlConnection(ConnexionString);
             Connexion.Open();
             // il faut calculer le chemin à suivre ici
+            MainG m = new MainG();
+            
             string cheminaSuivre = " ";
             MySqlParameter ParamcheminaSuivre = new MySqlParameter("@chemin", MySqlDbType.VarChar);
             ParamcheminaSuivre.Value = cheminaSuivre;
@@ -1145,7 +1150,7 @@ namespace LienC_Sql
             CommandPrel.Parameters.Add(ParamIdC);
             int rowsAffected1 = CommandPrel.ExecuteNonQuery();
 
-            string Requete = "SELECT IdCommande, CheminOpt FROM livrer WHERE Statut = 'non livré' AND IdCuisinier = @idC;";
+            string Requete = "SELECT IdCommande, IdClient FROM livrer WHERE Statut = 'non livré' AND IdCuisinier = @idC;";
             MySqlCommand Command = Connexion.CreateCommand();
             Command.CommandText = Requete;
             Command.Parameters.Add(ParamIdC);
@@ -1157,6 +1162,11 @@ namespace LienC_Sql
                 {
                     valueString[i] = reader.GetValue(i).ToString();
                     Console.Write(valueString[i] + " , ");
+                    string[] parties = valueString[i].Split(',');
+                    string idClient = parties[1];
+                    double[] coord=TrouverCooClient(idClient, instruction);
+                    string chemin=m.TrouverCheminLePlusCourt(item.latitudeP, item.longitudeP, coord[0], coord[1]);
+                    Console.WriteLine(chemin);
                 }
                 Console.WriteLine();
             }
@@ -1318,6 +1328,40 @@ namespace LienC_Sql
             }
             reader.Close();
             Command.Dispose();
+
+        }
+
+        static double[] TrouverCooClient(string idC, string instruction)
+        {
+
+            string ConnexionString = instruction;
+            MySqlConnection Connexion = new MySqlConnection(ConnexionString);
+            Connexion.Open();
+
+            MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
+            ParamIdC.Value = idC;
+
+            string Requete = "Select * from Client WHERE IDClient=@idC;";
+            MySqlCommand Command = Connexion.CreateCommand();
+            Command.CommandText = Requete;
+            Command.Parameters.Add(ParamIdC);
+            MySqlDataReader reader = Command.ExecuteReader();
+            string[] valueString = new string[reader.FieldCount];
+            double[] coor = new double[2];
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    valueString[i] = reader.GetValue(i).ToString();
+                    string[] parties = valueString[i].Split(',');
+                    coor[0] = Convert.ToDouble(parties[3]);
+                    coor[1]=Convert.ToDouble(parties[4]);
+                }
+                Console.WriteLine();
+            }
+            reader.Close();
+            Command.Dispose();
+            return coor;
 
         }
 

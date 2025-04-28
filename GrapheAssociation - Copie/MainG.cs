@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GrapheAssociation
 {
-    public class Main
+    public class MainG
     {
         private List<Dictionary<string, object>> listeLignes;
         private Dictionary<string, Dictionary<string, object>> listeGares;
@@ -22,7 +22,7 @@ namespace GrapheAssociation
         Graphe graphe;
 
 
-        public Main()
+        public MainG()
         {
             string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
             string filePathLignes = Path.Combine(chemin, @"metro_paris_temps.csv");
@@ -63,7 +63,7 @@ namespace GrapheAssociation
         /// <param name="latArrivee"></param>
         /// <param name="lonArrivee"></param>
         /// <returns></returns>
-        public string TrouverCheminLePlusCourt(double latDepart, double lonDepart, double latArrivee, double lonArrivee, int gareD, int gareA)
+        public string TrouverCheminLePlusCourt(double latDepart, double lonDepart, double latArrivee, double lonArrivee, int gareD=0, int gareA=0)
         {
             int gareDepart = gareD;
             int gareArrivee = gareA;

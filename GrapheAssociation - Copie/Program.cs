@@ -19,7 +19,7 @@ namespace GrapheAssociation
         static void Main(string[] args)
         {
            
-            Main refMain = new Main();
+            MainG refMain = new MainG();
 
             double latDepart = 48.056613;
             double lonDepart = 2.63222;

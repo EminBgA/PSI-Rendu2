@@ -12,4 +12,8 @@
     <PackageReference Include="MySql.Data" Version="9.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GrapheAssociation - Copie\GrapheAssociation.csproj" />
+  </ItemGroup>
+
 </Project>
