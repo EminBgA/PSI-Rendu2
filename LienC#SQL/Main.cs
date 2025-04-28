@@ -27,13 +27,17 @@ namespace GrapheAssociation
         {
             Console.WriteLine("Pour vous connecter à la base de données:");
             Console.WriteLine("Rentrez votre numéro de serveur");
-            this.serveur = Console.ReadLine();
+            //this.serveur = Console.ReadLine();
+            this.serveur = "localhost";
             Console.WriteLine("Rentrez le numéro de port");
-            this.port = Console.ReadLine();
+            //this.port = Console.ReadLine();
+            this.port = "3306";
             Console.WriteLine("Rentrez votre numéro d'uid");
-            this.uid = Console.ReadLine();
+            //this.uid = Console.ReadLine();
+            this.uid = "root";
             Console.WriteLine("Rentrez votre mot de passe");
-            this.password = Console.ReadLine();
+            //this.password = Console.ReadLine();
+            this.password = "123";
             this.instruction= "SERVER="+this.serveur+";PORT="+ this.port+"; DATABASE =plateforme;UID="+this.uid+";PASSWORD="+this.password;
 
             bool flag = true;
@@ -1150,7 +1154,7 @@ namespace GrapheAssociation
             CommandPrel.Parameters.Add(ParamIdC);
             int rowsAffected1 = CommandPrel.ExecuteNonQuery();
 
-            string Requete = "SELECT IdCommande, IdClient FROM livrer WHERE Statut = 'non livré' AND IdCuisinier = @idC;";
+            string Requete = "SELECT l.IdCommande, IdClient FROM livrer l JOIN Commande c ON l.IdCommande=c.IdCommande WHERE l.Statut = 'non livré' AND l.IdCuisinier = @idC;";
             MySqlCommand Command = Connexion.CreateCommand();
             Command.CommandText = Requete;
             Command.Parameters.Add(ParamIdC);
@@ -1160,9 +1164,9 @@ namespace GrapheAssociation
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    valueString[i] = reader.GetValue(i).ToString();
+                    valueString[i] = reader.GetValue(0).ToString() + ";" + reader.GetValue(1).ToString();
                     Console.Write(valueString[i] + " , ");
-                    string[] parties = valueString[i].Split(',');
+                    string[] parties = valueString[i].Split(';');
                     string idClient = parties[1];
                     double[] coord=TrouverCooClient(idClient, instruction);
                     string chemin=m.TrouverCheminLePlusCourt(item.latitudeP, item.longitudeP, coord[0], coord[1]);
@@ -1341,7 +1345,7 @@ namespace GrapheAssociation
             MySqlParameter ParamIdC = new MySqlParameter("@idC", MySqlDbType.VarChar);
             ParamIdC.Value = idC;
 
-            string Requete = "Select * from Client WHERE IDClient=@idC;";
+            string Requete = "Select LatitudeC, LongitudeC from Client WHERE IDClient=@idC;";
             MySqlCommand Command = Connexion.CreateCommand();
             Command.CommandText = Requete;
             Command.Parameters.Add(ParamIdC);
@@ -1352,10 +1356,10 @@ namespace GrapheAssociation
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    valueString[i] = reader.GetValue(i).ToString();
-                    string[] parties = valueString[i].Split(',');
-                    coor[0] = Convert.ToDouble(parties[3]);
-                    coor[1]=Convert.ToDouble(parties[4]);
+                    valueString[i] = reader.GetValue(0).ToString() + ";" + reader.GetValue(1).ToString();
+                    string[] parties = valueString[i].Split(';');
+                    coor[0] = Convert.ToDouble(parties[0], CultureInfo.InvariantCulture);
+                    coor[1]=Convert.ToDouble(parties[1], CultureInfo.InvariantCulture);
                 }
                 Console.WriteLine();
             }
