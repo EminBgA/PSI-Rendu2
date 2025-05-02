@@ -54,6 +54,7 @@ namespace GrapheAssociation
             }
         }
 
+        
 
         /// <summary>
         /// Cette fonction trouve le chemin le plus court à partir de coord de départ et d'arrivéé
@@ -108,12 +109,11 @@ namespace GrapheAssociation
         /// </summary>
         public void AfficherCarte()
         {
-            string chemin = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string chemin = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string filePathLignes = Path.Combine(chemin, @"metro_paris_temps.csv");
             string filePathGares = Path.Combine(chemin, @"metro_paris_gares2.csv");
             filePathLignes = Path.Combine(chemin, @"graphe.png");
             graphe.DessinerGraphe(filePathLignes, listeGares, listeLien);
-            FileStream file = File.Open(filePathLignes, FileMode.Open, FileAccess.Write, FileShare.None);
             Process.Start(new ProcessStartInfo(filePathLignes) { UseShellExecute = true });
         }
 
@@ -300,6 +300,31 @@ namespace GrapheAssociation
                 }
             }
             return allStationID;
+        }
+
+        public string ObtenirNomGarePlusProche(double longitude, double latitude)
+        {
+            string nomGarePlusProche = "";
+            double distanceMin = double.MaxValue;
+
+            foreach (string nomGare in listeNomSommets)
+            {
+                double radLatAdresse = latitude * (Math.PI / 180.0);
+                double radLonAdresse = longitude * (Math.PI / 180.0);
+                double radLatGare = Convert.ToDouble(listeGares[nomGare]["lat"]) * (Math.PI / 180.0);
+                double radLonGare = Convert.ToDouble(listeGares[nomGare]["lon"]) * (Math.PI / 180.0);
+                double dLat = radLatGare - radLatAdresse;
+                double dLon = radLonGare - radLonAdresse;
+                double a = Math.Pow(Math.Sin(dLat / 2), 2) + Math.Cos(radLatAdresse) * Math.Cos(radLatGare) * Math.Pow(Math.Sin(dLon / 2), 2);
+                double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+                double distance = 6371.0 * c;
+                if (distance < distanceMin)
+                {
+                    distanceMin = distance;
+                    nomGarePlusProche = nomGare;
+                }
+            }
+            return nomGarePlusProche;
         }
 
         /// <summary>
