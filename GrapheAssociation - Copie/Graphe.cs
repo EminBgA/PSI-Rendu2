@@ -742,12 +742,26 @@ namespace GrapheAssociation
 
                 }// Fin
 
+                Dictionary<int, SKColor> couleursGares = new Dictionary<int, SKColor>();
+                couleursGares = ColorierGares(listeSommets);
+
                 // Début : dessin des sommets
                 foreach (var node in positions)
                 {
                     SKPoint pos = node.Value;
-                    canvas.DrawCircle(pos, 20, paintNode);  // Dessin d'un cercle
-                    if ((int)node.Key == listeLientsEmpruntees[0].GetNoeud(1).GetID())
+                    //canvas.DrawCircle(pos, 20, paintNode);  // Dessin d'un cercle
+
+                    if (couleursGares.ContainsKey(node.Key))
+                    {
+                        using (var paintNodeColor = new SKPaint { Color = couleursGares[node.Key], IsAntialias = true })
+                        {
+                            canvas.DrawCircle(pos, 25, paintNodeColor);
+                        }
+                    }
+                    
+                        // Apparence des sommets.
+
+                    /*if ((int)node.Key == listeLientsEmpruntees[0].GetNoeud(1).GetID())
                     {
                         canvas.DrawText(listeLientsEmpruntees[0].GetNoeud(1).GetNom().ToString(), pos.X + 30, pos.Y - 20, paintText); // Ajout de l'ID du sommet
                         canvas.DrawCircle(pos, 40, paintNodeStart);  // Dessin d'un cercle                
@@ -756,8 +770,8 @@ namespace GrapheAssociation
                     {
                         canvas.DrawText(listeLientsEmpruntees[listeLientsEmpruntees.Length - 1].GetNoeud(2).GetNom().ToString(), pos.X + 30, pos.Y - 20, paintText); // Ajout de l'ID du sommet
                         canvas.DrawCircle(pos, 40, paintNodeFinish);  // Dessin d'un cercle   
-                    }
-                        
+                    }*/
+
                 }// Fin
 
                 //Sauvegarde de l'image en format png à l'endroit souhaité.
@@ -823,6 +837,108 @@ namespace GrapheAssociation
         }
 
 
+
+        public Dictionary<int, SKColor> ColorierGares(Noeud[] listeSommets)//Dictionary<int, List<int>> graphe)
+        {
+            List<int> numGares = new List<int>();
+            List<Noeud> refGares = new List<Noeud>();   
+            foreach (Noeud gare in listeSommets)
+            {
+                if (gare != null)
+                {
+                    numGares.Add(gare.GetID());
+                    refGares.Add(gare);
+                }
+                
+            }
+
+            // Tri décroissant selon le degré
+            for (int i = 0; i < numGares.Count - 1; i++)
+            {
+                for (int j = i + 1; j < numGares.Count; j++)
+                {
+                    if (refGares[j].GetVoisins().Count > refGares[i].GetVoisins().Count)
+                    {
+                        int temp = numGares[i];
+                        numGares[i] = numGares[j];
+                        numGares[j] = temp;
+                        Noeud tempN = refGares[i];
+                        refGares[i] = refGares[j];
+                        refGares[j] = tempN;
+                    }
+                }
+            }
+
+            Dictionary<Noeud, SKColor> couleursDesGares = new Dictionary<Noeud, SKColor>();
+            List<SKColor> couleursUtilisees = new List<SKColor>();
+
+            foreach (Noeud gare in refGares)
+            {
+                if (!couleursDesGares.ContainsKey(gare))
+                {
+                    SKColor nouvelleCouleur = GenererNouvelleCouleurSK(couleursUtilisees);
+                    couleursDesGares[gare] = nouvelleCouleur;
+
+                    foreach (Noeud autreGare in refGares)
+                    {
+                        if (!couleursDesGares.ContainsKey(autreGare) && !AUnVoisinAvecCetteCouleur(autreGare, couleursDesGares, refGares, nouvelleCouleur))
+                        {
+                            couleursDesGares[autreGare] = nouvelleCouleur;
+                        }
+                    }
+                }
+            }
+
+            Dictionary<int, SKColor> couleursDesGaresNum = new Dictionary<int, SKColor>();
+            foreach (Noeud gare in couleursDesGares.Keys)
+            {
+                couleursDesGaresNum[gare.GetID()] = couleursDesGares[gare];
+            }
+            return couleursDesGaresNum;
+        }
+
+        public bool AUnVoisinAvecCetteCouleur(Noeud refGare, Dictionary<Noeud, SKColor> couleurs, List<Noeud> refGares, SKColor couleur)
+        {
+            
+            foreach (Noeud voisin in refGare.GetVoisins())
+            {
+                if (couleurs.ContainsKey(voisin) && couleurs[voisin] == couleur)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public SKColor GenererNouvelleCouleurSK(List<SKColor> dejaUtilisees)
+        {
+            SKColor couleur;
+            bool existe;
+            Random rng = new Random();
+
+            do
+            {
+                byte r = (byte)rng.Next(0, 256);
+                byte g = (byte)rng.Next(0, 256);
+                byte b = (byte)rng.Next(0, 256);
+                couleur = new SKColor(r, g, b);
+
+                existe = false;
+                foreach (SKColor c in dejaUtilisees)
+                {
+                    if (c == couleur)
+                    {
+                        existe = true;
+                        break;
+                    }
+                }
+            }
+            while (existe);
+
+            dejaUtilisees.Add(couleur);
+            return couleur;
+        }
 
 
     }
