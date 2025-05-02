@@ -199,6 +199,9 @@ namespace GrapheAssociation
                     Client client = new Client(idC, nom, prénom, latitudeC, longitudeC, tel, mail, reg, idU);
                     InsertClientIntoDB(client,this.instruction);
                     Console.WriteLine("Bienvenue en tant que nouveau client de Liv'in Paris!");
+                    MainG m = new MainG();
+                    string metroplusproche = m.ObtenirNomGarePlusProche(longitudeC,latitudeC);
+                    Console.WriteLine("Vous vous ferez livrer vos commande à la gare: " + metroplusproche);
                     break;
 
                 case 2:
@@ -233,6 +236,9 @@ namespace GrapheAssociation
                     Client client1 = new Client(idC1, nom, prénom, latitudeC1, longitudeC1, tel1, mail1, reg1, idU);
                     InsertClientIntoDB(client1, this.instruction);
                     Console.WriteLine("Bienvenue en tant que nouveau client de Liv'in Paris!");
+                    MainG m1 = new MainG();
+                    string metroplusprochebis = m1.ObtenirNomGarePlusProche(longitudeC1, latitudeC1);
+                    Console.WriteLine("Vous vous ferez livrer vos commande à la gare: " + metroplusprochebis);
                     Console.WriteLine("Votre latitude de cuisinier? Attention: Ecriture avec une virgule au lieu d'un point");
                     double latitudeP1 = Convert.ToDouble(Console.ReadLine());
                     Console.WriteLine("Votre longitude de cuisinier? Attention: Ecriture avec une virgule au lieu d'un point");
@@ -559,7 +565,6 @@ namespace GrapheAssociation
                             Command9.Parameters.Add(ParamId);
                             MySqlDataReader reader9 = Command9.ExecuteReader();
                             string[] valueString9 = new string[reader9.FieldCount];
-                            Console.WriteLine(reader9.FieldCount);
                             while (reader9.Read())
                             {
                                 for (int i = 0; i < reader9.FieldCount; i++)
@@ -577,6 +582,29 @@ namespace GrapheAssociation
                             }
                             break;
                         case 10:
+                            Console.WriteLine("Vous voulez afficher les plats proposés par quel cuisinier?");
+                            Console.WriteLine("Entrez son nom de famille");
+                            string nomcu= Console.ReadLine();
+                            Console.WriteLine("Entrez son prénom");
+                            string prénomcu = Console.ReadLine();
+                            string ReqPlat = "Select p.NomP, p.Id_Plat, p.typeP, p.Prix, p.Nationalité, p.Rég_ali, p.IngrP, p.Nb_portionsP, p.photoP from Plat p JOIN cuisinier c ON p.IDCuisinier=c.IDCuisinier where c.nomP=@nomcu AND c.prenomP=@prenomcu";
+                            MySqlCommand Command10 = Connexion.CreateCommand();
+                            Command10.CommandText = ReqPlat;
+                            Command10.Parameters.Clear();
+                            Command10.Parameters.AddWithValue("@nomcu", nomcu);
+                            Command10.Parameters.AddWithValue("@prenomcu", prénomcu);
+                            MySqlDataReader reader10 = Command10.ExecuteReader();
+                            string[] valueString10 = new string[reader10.FieldCount];
+                            Console.WriteLine("Voici tous les informations sur les plats proposés par le cuisinier "+ nomcu+ " "+ prénomcu);
+                            while (reader10.Read())
+                            {
+                                for (int i = 0; i < reader10.FieldCount; i++)
+                                {
+                                    Console.Write(reader10.GetName(i) + ": ");
+                                    Console.WriteLine(reader10.GetValue(i).ToString());
+                                }
+                                Console.WriteLine("-----"); // Séparateur entre les plats
+                            }
                             break;
                         case 11:
                             Console.WriteLine("Entrez le nom puis le prénom du cuisinier que vous voulez choisir pour la préparation de votre commande");
@@ -585,12 +613,12 @@ namespace GrapheAssociation
                             Console.WriteLine("Quel plat voulez vous qu'il prépare, écrivez qu'un seul plat!!!!");
                             string nomPlat = Console.ReadLine();
 
-                            MySqlConnection Connexion10 = new MySqlConnection(ConnexionString);
-                            Connexion10.Open();
+                            MySqlConnection Connexion11 = new MySqlConnection(ConnexionString);
+                            Connexion11.Open();
 
                          
                             // Création de l'objet Command
-                            MySqlCommand CommandI = Connexion10.CreateCommand();
+                            MySqlCommand CommandI = Connexion11.CreateCommand();
 
                             // ----------------------
                             // 1. Récupérer l'IdCuisinier
@@ -615,7 +643,7 @@ namespace GrapheAssociation
                             if (idCuisinier == null)
                             {
                                 Console.WriteLine("Cuisinier introuvable avec ce nom et prénom.");
-                                Connexion10.Close();
+                                Connexion11.Close();
                                 return;
                             }
 
@@ -677,13 +705,13 @@ namespace GrapheAssociation
                                 CommandI.CommandText = Requeteint;
                                 CommandI.Parameters.Clear();
 
-                                MySqlDataReader reader10 = CommandI.ExecuteReader();
+                                MySqlDataReader reader11 = CommandI.ExecuteReader();
                                 string IdCommande = "";
-                                while (reader10.Read())
+                                while (reader11.Read())
                                 {
-                                    IdCommande = reader10["IdCommande"].ToString();
+                                    IdCommande = reader11["IdCommande"].ToString();
                                 }
-                                reader10.Close();
+                                reader11.Close();
 
                                 int PartieNumerique = Convert.ToInt32(IdCommande.Substring(2));
                                 PartieNumerique++;
@@ -744,6 +772,7 @@ namespace GrapheAssociation
                                     Console.ReadLine();
                                     return;
                                 }
+
                             }
                             else
                             {
@@ -751,7 +780,7 @@ namespace GrapheAssociation
                             }
 
                             CommandI.Dispose();
-                            Connexion10.Close();
+                            Connexion11.Close();
                             break;
 
                             //    Console.WriteLine("Entrez le nom puis le prénom du cuisinier que vous voulez choisir pour la préparation de votre commande");
@@ -1456,6 +1485,7 @@ namespace GrapheAssociation
                 double[] coord=TrouverCooClient(idClient, instruction);
                 string chemin=m.TrouverCheminLePlusCourt(item.latitudeP, item.longitudeP, coord[0], coord[1]);
                 Console.WriteLine(chemin);
+                m.AfficherCarte();
                 Console.WriteLine();
                 i++;
             }

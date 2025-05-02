@@ -98,8 +98,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-24T21:10:50.694Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -112,8 +111,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-23T22:01:47.501Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -126,8 +124,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-24T21:15:21.462Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -149,22 +146,10 @@
               "RelativeDocumentMoniker": "Main.cs",
               "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu2\\LienC#SQL\\Main.cs",
               "RelativeToolTip": "Main.cs",
-              "ViewState": "AgIAAJEFAAAAAAAAAAAgwLAFAABuAAAAAAAAAA==",
+              "ViewState": "AgIAADoCAAAAAAAAAIAwwEsCAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-04T10:40:19.663Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Lien.cs",
-              "DocumentMoniker": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
-              "RelativeDocumentMoniker": "..\\..\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
-              "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
-              "RelativeToolTip": "..\\..\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-03T11:06:36.391Z"
             },
             {
               "$type": "Document",
@@ -224,8 +209,7 @@
               "RelativeToolTip": "evaluer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T21:13:43.021Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-24T21:13:43.021Z"
             },
             {
               "$type": "Document",
@@ -237,8 +221,19 @@
               "RelativeToolTip": "..\\GrapheAssociation - Copie\\MainG.cs",
               "ViewState": "AgIAAD0AAAAAAAAAAIAwwEEAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-28T08:48:15.694Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-28T08:48:15.694Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Lien.cs",
+              "DocumentMoniker": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
+              "RelativeDocumentMoniker": "..\\..\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
+              "ToolTip": "C:\\Users\\cyril\\OneDrive\\Bureau\\projet PSI\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
+              "RelativeToolTip": "..\\..\\PSI-Rendu1\\GrapheAssociation - Copie\\Lien.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T11:06:36.391Z"
             },
             {
               "$type": "Document",

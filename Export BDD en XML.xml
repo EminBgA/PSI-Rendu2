@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- New XML document created with EditiX XML Editor (http://www.editix.com) at Fri May 02 12:54:57 CEST 2025 -->
+
+<database name="MaBaseDeDonnees">
+  <table name="Utilisateur">
+    <column name="Id_Utilisateur" type="VARCHAR(50)" primaryKey="true" />
+    <column name="Mot_de_Passe" type="VARCHAR(50)" />
+  </table>
+
+  <table name="client">
+    <column name="IdClient" type="VARCHAR(10)" primaryKey="true" />
+    <column name="NomC" type="VARCHAR(50)" />
+    <column name="PrénomC" type="VARCHAR(50)" />
+    <column name="LatitudeC" type="VARCHAR(50)" />
+    <column name="LongitudeC" type="VARCHAR(50)" />
+    <column name="TelephoneC" type="LONG" />
+    <column name="EmailC" type="VARCHAR(50)" />
+    <column name="regimeAlC" type="VARCHAR(50)" />
+    <column name="Id_Utilisateur" type="VARCHAR(50)" unique="true" foreignKey="Utilisateur.Id_Utilisateur" />
+  </table>
+
+  <table name="cuisinier">
+    <column name="IDCuisinier" type="VARCHAR(10)" primaryKey="true" />
+    <column name="nomP" type="VARCHAR(50)" />
+    <column name="prenomP" type="VARCHAR(50)" />
+    <column name="LatitudeP" type="VARCHAR(50)" />
+    <column name="LongitudeP" type="VARCHAR(50)" />
+    <column name="adresseP" type="VARCHAR(50)" />
+    <column name="telephoneP" type="LONG" />
+    <column name="emailP" type="VARCHAR(50)" />
+    <column name="spécialités" type="VARCHAR(50)" />
+    <column name="Id_Utilisateur" type="CHAR(50)" unique="true" foreignKey="Utilisateur.Id_Utilisateur" />
+  </table>
+
+  <table name="Commande">
+    <column name="IdCommande" type="VARCHAR(10)" primaryKey="true" />
+    <column name="IdClient" type="VARCHAR(10)" foreignKey="client.IdClient" />
+    <column name="dateComm" type="DATETIME" />
+  </table>
+
+  <table name="Plat">
+    <column name="Id_Plat" type="VARCHAR(10)" primaryKey="true" />
+    <column name="NomP" type="CHAR(50)" />
+    <column name="DateFabP" type="DATETIME" />
+    <column name="typeP" type="VARCHAR(50)" />
+    <column name="DateP" type="DATETIME" />
+    <column name="Prix" type="DECIMAL(15,2)" />
+    <column name="Nationalité" type="CHAR(50)" />
+    <column name="Rég_ali" type="CHAR(50)" />
+    <column name="IngrP" type="VARCHAR(50)" />
+    <column name="Nb_portionsP" type="INT" />
+    <column name="photoP" type="BLOB" />
+    <column name="IDCuisinier" type="VARCHAR(10)" foreignKey="cuisinier.IDCuisinier" />
+  </table>
+
+  <table name="constituer_de_">
+    <column name="Id_Plat" type="VARCHAR(10)" primaryKey="true" foreignKey="Plat.Id_Plat" />
+    <column name="IdCommande" type="VARCHAR(10)" primaryKey="true" foreignKey="Commande.IdCommande" />
+  </table>
+
+  <table name="evaluer">
+    <column name="IdClient" type="VARCHAR(10)" primaryKey="true" foreignKey="client.IdClient" />
+    <column name="IDCuisinier" type="VARCHAR(10)" primaryKey="true" foreignKey="cuisinier.IDCuisinier" />
+    <column name="Note" type="INT" />
+    <column name="commentaire" type="VARCHAR(500)" />
+  </table>
+
+  <table name="livrer">
+    <column name="IDCuisinier" type="VARCHAR(10)" primaryKey="true" foreignKey="cuisinier.IDCuisinier" />
+    <column name="IdCommande" type="VARCHAR(10)" primaryKey="true" foreignKey="Commande.IdCommande" />
+    <column name="AdresseDep" type="VARCHAR(50)" />
+    <column name="AdresseArr" type="VARCHAR(50)" />
+    <column name="Distance_" type="DECIMAL(15,2)" />
+    <column name="CheminOpt" type="VARCHAR(900)" />
+    <column name="Statut" type="VARCHAR(50)" />
+  </table>
+</database>
+
