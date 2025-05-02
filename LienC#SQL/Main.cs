@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -313,7 +314,9 @@ namespace GrapheAssociation
                     Console.WriteLine("7-Supprimez votre compte utilisateur. Attention la suppression est automatique");
                     Console.WriteLine("8-Si vous êtes cuisinier, consulter la liste des clients que vous avez livré");
                     Console.WriteLine("9-Si vous êtes cuisinier et que vous avez des commandes à livrés, regarder le trajet optimal que vous devez suivre");
-                    Console.WriteLine("10-Quitter la plateforme");
+                    Console.WriteLine("10-Si vous êtes client, consultez la liste des plats en fonction d'un nom d'un cuisinier");
+                    Console.WriteLine("11-Si vous êtes client, passez une commande (renseignez vous sur les plats proposés par les cuisiniers avant de passer commande :) ");
+                    Console.WriteLine("12-Quitter la plateforme");
                     int t = Convert.ToInt32(Console.ReadLine());
                     switch (t)
                     {
@@ -569,17 +572,300 @@ namespace GrapheAssociation
                                 Cuisinier cu = new Cuisinier(valueString9[0]);
                                 reader9.Close();
                                 Command9.Dispose();
-                                Console.WriteLine("Voici les commandes que vous avez à livrés avec le trajet optimal à suivre");
+                                Console.WriteLine("Voici les commandes que vous avez à livrer avec le trajet optimal à suivre");
                                 TrajetaSuivrepourCuisinier(cu, this.instruction);
                             }
                             break;
                         case 10:
-                            flag1 = false;
-                            Console.WriteLine("A bientôt");
                             break;
-                        default:
-                            Console.WriteLine("Option invalide.");
+                        case 11:
+                            Console.WriteLine("Entrez le nom puis le prénom du cuisinier que vous voulez choisir pour la préparation de votre commande");
+                            string NomCu = Console.ReadLine();
+                            string PrénomCu = Console.ReadLine();
+                            Console.WriteLine("Quel plat voulez vous qu'il prépare, écrivez qu'un seul plat!!!!");
+                            string nomPlat = Console.ReadLine();
+
+                            MySqlConnection Connexion10 = new MySqlConnection(ConnexionString);
+                            Connexion10.Open();
+
+                         
+                            // Création de l'objet Command
+                            MySqlCommand CommandI = Connexion10.CreateCommand();
+
+                            // ----------------------
+                            // 1. Récupérer l'IdCuisinier
+                            // ----------------------
+
+                            string Requeterechcu = "SELECT IDCuisinier FROM cuisinier WHERE nomP = @nom AND prenomP = @prenom";
+                            CommandI.CommandText = Requeterechcu;
+                            CommandI.Parameters.Clear();
+                            CommandI.Parameters.AddWithValue("@nom", NomCu);
+                            CommandI.Parameters.AddWithValue("@prenom", PrénomCu);
+
+                            string idCuisinier = null;
+
+                            MySqlDataReader lecteurCuisinier = CommandI.ExecuteReader();
+                            if (lecteurCuisinier.Read())
+                            {
+                                idCuisinier = lecteurCuisinier["IDCuisinier"].ToString();
+                            }
+                            lecteurCuisinier.Close();
+
+                            // Vérifie si le cuisinier a été trouvé
+                            if (idCuisinier == null)
+                            {
+                                Console.WriteLine("Cuisinier introuvable avec ce nom et prénom.");
+                                Connexion10.Close();
+                                return;
+                            }
+
+                            // ----------------------
+                            // 2. Récupérer l'IdClient
+                            // ----------------------
+                            string Requeteintint = "Select IdClient from client where Id_Utilisateur=@id";
+                            CommandI.CommandText = Requeteintint;
+                            CommandI.Parameters.Clear();
+                            CommandI.Parameters.Add(ParamId);
+
+                            MySqlDataReader readerintint = CommandI.ExecuteReader();
+                            string[] clientcherche = new string[readerintint.FieldCount];
+                            while (readerintint.Read())
+                            {
+                                for (int i = 0; i < readerintint.FieldCount; i++)
+                                {
+                                    clientcherche[i] = readerintint.GetValue(0).ToString();
+                                }
+                            }
+                            readerintint.Close();
+
+                            // ----------------------
+                            // 3. Récupérer l'IdPlat et Prix
+                            // ----------------------
+                            string Req = "Select Id_Plat, Prix from Plat where NomP=@id AND IDCuisinier=@idC";
+                            CommandI.CommandText = Req;
+                            CommandI.Parameters.Clear();
+                            CommandI.Parameters.AddWithValue("@id", nomPlat);
+                            CommandI.Parameters.AddWithValue("@idC", idCuisinier);
+                            string idPlat = null;
+                            decimal prixPlat = 0;
+
+                            MySqlDataReader lecteurPlat = CommandI.ExecuteReader();
+                            if (lecteurPlat.Read())
+                            {
+                                idPlat = lecteurPlat["Id_Plat"].ToString();
+                                prixPlat = lecteurPlat.GetDecimal("Prix");
+                            }
+                            lecteurPlat.Close();
+
+                            if (idPlat == null)
+                            {
+                                Console.WriteLine("Aucun plat trouvé avec ce nom.");
+                                return;
+                            }
+
+                            // ----------------------
+                            // 4. Confirmation utilisateur
+                            // ----------------------
+                            Console.WriteLine("Vous vous apprétez à payer : " + prixPlat.ToString("0.00") + " €");
+                            Console.WriteLine("Êtes-vous sûr de passer la commande ? Tapez 'oui' pour confirmer.");
+                            string confirmation = Console.ReadLine();
+
+                            if (confirmation.ToLower() == "oui")
+                            {
+                                // Génération de l'IdCommande
+                                string Requeteint = "select MAX(IdCommande) AS IdCommande from commande;";
+                                CommandI.CommandText = Requeteint;
+                                CommandI.Parameters.Clear();
+
+                                MySqlDataReader reader10 = CommandI.ExecuteReader();
+                                string IdCommande = "";
+                                while (reader10.Read())
+                                {
+                                    IdCommande = reader10["IdCommande"].ToString();
+                                }
+                                reader10.Close();
+
+                                int PartieNumerique = Convert.ToInt32(IdCommande.Substring(2));
+                                PartieNumerique++;
+                                string NouveauIdCommande = "CM" + PartieNumerique.ToString();
+
+                                // Insertion dans commande
+                                string createCommande = @"INSERT IGNORE INTO plateforme.commande (IdCommande, IdClient) VALUES (@idCommande, @idClient)";
+                                CommandI.CommandText = createCommande;
+                                CommandI.Parameters.Clear();
+                                CommandI.Parameters.AddWithValue("@idCommande", NouveauIdCommande);
+                                CommandI.Parameters.AddWithValue("@idClient", clientcherche[0]);
+
+                                try
+                                {
+                                    CommandI.ExecuteNonQuery();
+                                }
+                                catch (MySqlException e)
+                                {
+                                    Console.WriteLine("Erreur connexion: " + e.ToString());
+                                    Console.ReadLine();
+                                    return;
+                                }
+
+                                // Insertion dans constituer_de_
+                                string createcd = @"INSERT IGNORE INTO plateforme.constituer_de_ (Id_Plat, IdCommande) VALUES (@idPlat, @idCommande)";
+                                CommandI.CommandText = createcd;
+                                CommandI.Parameters.Clear();
+                                CommandI.Parameters.AddWithValue("@idPlat", idPlat);
+                                CommandI.Parameters.AddWithValue("@idCommande", NouveauIdCommande);
+
+                                try
+                                {
+                                    CommandI.ExecuteNonQuery();
+                                }
+                                catch (MySqlException e)
+                                {
+                                    Console.WriteLine("Erreur connexion: " + e.ToString());
+                                    Console.ReadLine();
+                                    return;
+                                }
+                                // Insertion dans livrer
+                                string createlivrer = @"INSERT IGNORE INTO plateforme.livrer (IDcuisinier, IdCommande, Statut) VALUES (@idCu, @idCommande, @statut )";
+                                CommandI.CommandText = createlivrer;
+                                CommandI.Parameters.Clear();
+                                CommandI.Parameters.AddWithValue("@idCu", idCuisinier);
+                                CommandI.Parameters.AddWithValue("@idCommande", NouveauIdCommande);
+                                string statut = "non livré";
+                                CommandI.Parameters.AddWithValue("@statut", statut);
+
+                                try
+                                {
+                                    CommandI.ExecuteNonQuery();
+                                    Console.WriteLine("Commande passée, merci !");
+                                }
+                                catch (MySqlException e)
+                                {
+                                    Console.WriteLine("Erreur connexion: " + e.ToString());
+                                    Console.ReadLine();
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Commande annulée.");
+                            }
+
+                            CommandI.Dispose();
+                            Connexion10.Close();
                             break;
+
+                            //    Console.WriteLine("Entrez le nom puis le prénom du cuisinier que vous voulez choisir pour la préparation de votre commande");
+                            //    string NomCu = Console.ReadLine();
+                            //    string PrénomCu= Console.ReadLine();
+                            //    Console.WriteLine("Quel plat voulez vous qu'il prépare, écrivez qu'un seul plat!!!!");
+                            //    string nomPlat= Console.ReadLine();
+                            //    MySqlConnection Connexion10 = new MySqlConnection(ConnexionString);
+                            //    Connexion10.Open();
+                            //    //Création de l'objet Command avec la requête
+                            //    string Requeteint = "select MAX(IdCommande) AS IdCommande from commande;";
+                            //    MySqlCommand CommandI = Connexion.CreateCommand();
+                            //    CommandI.CommandText = Requeteint;
+                            //    // Execution de la requête et récupération des résultats dans l'objet MySqlDataReader
+                            //    MySqlDataReader reader10 = CommandI.ExecuteReader();
+                            //    string IdCommande = "";
+                            //    // Récupération des résultats dans des variables C#
+                            //    while (reader.Read())
+                            //    {
+                            //        IdCommande = reader10["IdCommande"].ToString();
+                            //    }
+                            //    reader.Close();
+
+                            //    string Requeteintint = "Select IdClient from client where Id_Utilisateur=@id";
+                            //    CommandI.CommandText = Requeteintint;
+                            //    CommandI.Parameters.Clear();
+                            //    CommandI.Parameters.Add(ParamId);
+                            //    MySqlDataReader readerintint = CommandI.ExecuteReader();
+                            //    string[] clientcherche = new string[readerintint.FieldCount];
+                            //    while (readerintint.Read())
+                            //    {
+                            //        for (int i = 0; i < readerintint.FieldCount; i++)
+                            //        {
+                            //            clientcherche[i] = readerintint.GetValue(0).ToString();
+                            //        }
+
+                            //    }
+                            //    readerintint.Close();
+                            //    int PartieNumerique = Convert.ToInt32(IdCommande.Substring(2));
+                            //    PartieNumerique++;
+                            //    string NouveauIdCommande = "CM" + PartieNumerique.ToString();
+
+                            //    string createCommande = $@"INSERT IGNORE INTO plateforme.commande (IdCommande, IdClient)
+                            //        VALUES ('{NouveauIdCommande}', '{clientcherche[0]}')";
+
+                            //    CommandI.CommandText = createCommande;
+                            //    try
+                            //    {
+                            //        CommandI.ExecuteNonQuery();
+                            //    }
+                            //    catch (MySqlException e)
+                            //    {
+                            //        Console.WriteLine("Erreur connexion: " + e.ToString());
+                            //        Console.ReadLine();
+                            //        return;
+                            //    }
+
+
+                            //    string Req = "Select IdPlat, Prix from Plat where NomP=@id";
+
+                            //    CommandI.CommandText = Requeteintint;
+                            //    CommandI.Parameters.Clear();
+                            //    CommandI.Parameters.Add(nomPlat);
+                            //    // Variables pour stocker les résultats
+                            //    string idPlat = null;
+                            //    decimal prixPlat = 0;
+
+                            //    // Exécution de la requête
+                            //    MySqlDataReader lecteurPlat = CommandI.ExecuteReader();
+
+                            //    if (lecteurPlat.Read())
+                            //    {
+                            //        idPlat = lecteurPlat["IdPlat"].ToString();       // récupère l'identifiant
+                            //        prixPlat = lecteurPlat.GetDecimal("Prix");       // récupère le prix
+                            //    }
+                            //    lecteurPlat.Close();
+
+                            //    // Vérifie si le plat a été trouvé
+                            //    if (idPlat == null)
+                            //    {
+                            //        Console.WriteLine("Aucun plat trouvé avec ce nom.");
+                            //        return;
+                            //    }
+                            //    string createcd = $@"INSERT IGNORE INTO plateforme.constituer_de_ (Id_Plat, IdCommande)
+                            //        VALUES ('{idPlat}', '{clientcherche[0]}')";
+                            //    CommandI.CommandText = createcd;
+                            //    try
+                            //    {
+                            //        CommandI.ExecuteNonQuery();
+                            //    }
+                            //    catch (MySqlException e)
+                            //    {
+                            //        Console.WriteLine("Erreur connexion: " + e.ToString());
+                            //        Console.ReadLine();
+                            //        return;
+                            //    }
+                            //    Console.WriteLine("Vous vous apprétez à payer :" + Convert.ToString(prixPlat) + " €");
+                            //    Console.WriteLine("Etes vous sur de passer la commande? Taper oui sinon non.");
+                            //    string confirmation=Console.ReadLine();
+                            //    if (confirmation=="oui")
+                            //    {
+                            //        Console.WriteLine("Commande passée, merci!");
+                            //    }
+                            //    CommandI.Dispose();
+                            //    Connexion10.Close();
+                            //    break;
+
+                            //case 12:
+                            //    flag1 = false;
+                            //    Console.WriteLine("A bientôt");
+                            //    break;
+                            //default:
+                            //    Console.WriteLine("Option invalide.");
+                              break;
 
 
 
@@ -1160,19 +1446,18 @@ namespace GrapheAssociation
             Command.Parameters.Add(ParamIdC);
             MySqlDataReader reader = Command.ExecuteReader();
             string[] valueString = new string[reader.FieldCount];
+            int i = 0;
             while (reader.Read())
             {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    valueString[i] = reader.GetValue(0).ToString() + ";" + reader.GetValue(1).ToString();
-                    Console.Write(valueString[i] + " , ");
-                    string[] parties = valueString[i].Split(';');
-                    string idClient = parties[1];
-                    double[] coord=TrouverCooClient(idClient, instruction);
-                    string chemin=m.TrouverCheminLePlusCourt(item.latitudeP, item.longitudeP, coord[0], coord[1]);
-                    Console.WriteLine(chemin);
-                }
+                valueString[i] = reader.GetValue(0).ToString() + ";" + reader.GetValue(1).ToString();
+                Console.Write(valueString[i] + " , ");
+                string[] parties = valueString[i].Split(';');
+                string idClient = parties[1];
+                double[] coord=TrouverCooClient(idClient, instruction);
+                string chemin=m.TrouverCheminLePlusCourt(item.latitudeP, item.longitudeP, coord[0], coord[1]);
+                Console.WriteLine(chemin);
                 Console.WriteLine();
+                i++;
             }
             reader.Close();
             Command.Dispose();
@@ -1334,6 +1619,7 @@ namespace GrapheAssociation
             Command.Dispose();
 
         }
+
 
         static double[] TrouverCooClient(string idC, string instruction)
         {
