@@ -40,6 +40,10 @@ namespace GrapheAssociation
             return voisins;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie le nom de la gare de métro.
+        /// </summary>
+        /// <returns></returns>
         public string GetNom()
         {
             return nom;

@@ -26,8 +26,8 @@ namespace GrapheAssociation
             double latArrivee = 48.44366;
             double lonArrivee = 2.68563;
 
-            int gareDepart = 54;
-            int gareArrivee = 307;
+            int gareDepart = 287;
+            int gareArrivee = 111;
 
             // Pour utilise les coordonnees, il faut mettre les gare à 0. gareDepart = 0 et gareArrivee = 0
 

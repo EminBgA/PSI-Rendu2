@@ -50,21 +50,37 @@ namespace GrapheAssociation
             return noeud;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie le nom du métro.
+        /// </summary>
+        /// <returns></returns>
         public string GetNomMetro()
         {
             return nomMetro;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie le numéro du métro.
+        /// </summary>
+        /// <returns></returns>
         public int GetNumMetro()
         {
             return numMetro;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie la distance entre deux gares.
+        /// </summary>
+        /// <returns></returns>
         public int Distance()
         {
             return distance;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie le tmeps de changement.
+        /// </summary>
+        /// <returns></returns>
         public int GetTempsChangement()
         {
             return tempsChangement;

@@ -742,26 +742,26 @@ namespace GrapheAssociation
 
                 }// Fin
 
-                Dictionary<int, SKColor> couleursGares = new Dictionary<int, SKColor>();
-                couleursGares = ColorierGares(listeSommets);
+                //Dictionary<int, SKColor> couleursGares = new Dictionary<int, SKColor>();
+                //couleursGares = ColorierGares(listeSommets);
 
                 // Début : dessin des sommets
                 foreach (var node in positions)
                 {
                     SKPoint pos = node.Value;
-                    //canvas.DrawCircle(pos, 20, paintNode);  // Dessin d'un cercle
-
+                    canvas.DrawCircle(pos, 20, paintNode);  // Dessin d'un cercle
+                    /*
                     if (couleursGares.ContainsKey(node.Key))
                     {
                         using (var paintNodeColor = new SKPaint { Color = couleursGares[node.Key], IsAntialias = true })
                         {
                             canvas.DrawCircle(pos, 25, paintNodeColor);
                         }
-                    }
+                    }*/
                     
                         // Apparence des sommets.
 
-                    /*if ((int)node.Key == listeLientsEmpruntees[0].GetNoeud(1).GetID())
+                    if ((int)node.Key == listeLientsEmpruntees[0].GetNoeud(1).GetID())
                     {
                         canvas.DrawText(listeLientsEmpruntees[0].GetNoeud(1).GetNom().ToString(), pos.X + 30, pos.Y - 20, paintText); // Ajout de l'ID du sommet
                         canvas.DrawCircle(pos, 40, paintNodeStart);  // Dessin d'un cercle                
@@ -770,7 +770,7 @@ namespace GrapheAssociation
                     {
                         canvas.DrawText(listeLientsEmpruntees[listeLientsEmpruntees.Length - 1].GetNoeud(2).GetNom().ToString(), pos.X + 30, pos.Y - 20, paintText); // Ajout de l'ID du sommet
                         canvas.DrawCircle(pos, 40, paintNodeFinish);  // Dessin d'un cercle   
-                    }*/
+                    }
 
                 }// Fin
 
@@ -837,8 +837,12 @@ namespace GrapheAssociation
         }
 
 
-
-        public Dictionary<int, SKColor> ColorierGares(Noeud[] listeSommets)//Dictionary<int, List<int>> graphe)
+        /// <summary>
+        /// Cette fonction assigne une couleur à chaque sommmet du graphe.
+        /// </summary>
+        /// <param name="listeSommets"></param>
+        /// <returns></returns>
+        public Dictionary<int, SKColor> ColorierGares(Noeud[] listeSommets)
         {
             List<int> numGares = new List<int>();
             List<Noeud> refGares = new List<Noeud>();   
@@ -897,6 +901,14 @@ namespace GrapheAssociation
             return couleursDesGaresNum;
         }
 
+        /// <summary>
+        /// Cette fonction vérifie si un sommet a un voisin de la même couleur
+        /// </summary>
+        /// <param name="refGare"></param>
+        /// <param name="couleurs"></param>
+        /// <param name="refGares"></param>
+        /// <param name="couleur"></param>
+        /// <returns></returns>
         public bool AUnVoisinAvecCetteCouleur(Noeud refGare, Dictionary<Noeud, SKColor> couleurs, List<Noeud> refGares, SKColor couleur)
         {
             
@@ -910,7 +922,11 @@ namespace GrapheAssociation
             return false;
         }
 
-
+        /// <summary>
+        /// Cette fonction génére une nouvelle couleur alétoirement.
+        /// </summary>
+        /// <param name="dejaUtilisees"></param>
+        /// <returns></returns>
         public SKColor GenererNouvelleCouleurSK(List<SKColor> dejaUtilisees)
         {
             SKColor couleur;

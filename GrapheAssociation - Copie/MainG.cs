@@ -302,6 +302,12 @@ namespace GrapheAssociation
             return allStationID;
         }
 
+        /// <summary>
+        /// Cette fonction renvoie le nom de la grae plus proche à partir d'une longitude et d'une latitude.
+        /// </summary>
+        /// <param name="longitude"></param>
+        /// <param name="latitude"></param>
+        /// <returns></returns>
         public string ObtenirNomGarePlusProche(double longitude, double latitude)
         {
             string nomGarePlusProche = "";
